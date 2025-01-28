@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
+/* enforse fallable montserrat to all the text */
+* {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+body {
+  background-color: black !important;
+}
 button[data-testid="rk-connect-button"] {
-  background-color: rgb(38, 38, 38) !important;
-  color: rgb(163, 163, 163) !important;
+  background-color: white !important;
+  color: black !important;
+  font-weight: 100 !important;
+  width: 11dvw !important;
 }
