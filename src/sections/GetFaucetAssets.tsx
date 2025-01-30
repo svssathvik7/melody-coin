@@ -40,6 +40,8 @@ export default function GetFaucetAssets() {
         functionName: "getFaucetAssets",
         args: [],
       });
+      toaster("success", "Added 0.1 MLD to your wallet");
+      return;
     } catch (error) {
       console.log(error);
       // revise: handle time, abuse etc errors
@@ -70,19 +72,14 @@ export default function GetFaucetAssets() {
         >
           {isPending || isConfirming ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Requesting 0.1 MLD...
+              <Loader2 className="mx-1 h-4 w-4 animate-spin" />
             </>
           ) : (
             "Get 0.1 MLD"
           )}
         </Button>
       </CardFooter>
-      {isConfirmed && (
-        <div className="px-6 py-2 bg-gray-100 text-center text-sm text-gray-700">
-          Transaction confirmed! Check your wallet for MLD tokens.
-        </div>
-      )}
     </Card>
   );
 }

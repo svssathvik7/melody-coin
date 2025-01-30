@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { getBalance } from "@/utils/contractFetcher";
 import { useEffect, useState } from "react";
@@ -27,8 +27,6 @@ export default function CheckBalance() {
           return;
         }
         // ignore the errors, saying args does not exists
-        console.log("transfer event heard : ",logs[0]);
-        console.log("transfer event args : ",logs[0].args);
         const from = logs[0].args.from;
         const to = logs[0].args.to;
         const relevantTransfer =  address == from || address == to;
