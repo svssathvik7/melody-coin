@@ -12,6 +12,6 @@ export const getBalance = async (address: string) => {
   } catch (error) {
     console.log(error);
     toaster("error", "Failed to get balance");
-    return BigInt(0);
+    return formatUnits(BigInt(0), 18);
   }
 };

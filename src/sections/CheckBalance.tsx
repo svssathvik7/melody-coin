@@ -1,19 +1,43 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { getBalance } from "@/utils/contractFetcher";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useWatchContractEvent } from "wagmi";
 
 export default function CheckBalance() {
   const { address } = useAccount();
-  const [balance, setBalance] = useState<bigint | null>(BigInt(0));
+  const [balance, setBalance] = useState<string>("0");
+  const fetchBalance = async () => {
+    const balance = await getBalance(address as `0x${string}`);
+    setBalance(balance);
+  };
   useEffect(() => {
-    const fetchBalance = async () => {
-      const balance: bigint = await getBalance(address as `0x${string}`) as bigint;
-      setBalance(balance);
-    };
     fetchBalance();
   }, [address]);
+
+
+  useWatchContractEvent(
+    {
+      address: CONTRACT_ADDRESS,
+      abi: MELODY_COIN_ABI,
+      eventName: "Transfer",
+      onLogs(logs){
+        if(!address){
+          return;
+        }
+        // ignore the errors, saying args does not exists
+        console.log("transfer event heard : ",logs[0]);
+        console.log("transfer event args : ",logs[0].args);
+        const from = logs[0].args.from;
+        const to = logs[0].args.to;
+        const relevantTransfer =  address == from || address == to;
+        if(relevantTransfer){
+          fetchBalance();
+        }
+      }
+    }
+  )
   return (
     <Card className="h-[30dvh] text-black bg-white w-[30dvw] flex flex-col items-center justify-center my-8">
       <CardHeader>

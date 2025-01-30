@@ -13,6 +13,7 @@ import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { AlertCircle, Loader2 } from "lucide-react";
 import toaster from "@/utils/toaster";
+import { useEffect } from "react";
 
 export default function GetFaucetAssets() {
   const {
@@ -60,14 +61,6 @@ export default function GetFaucetAssets() {
           Faucet reserves are limited and are meant for testing purposes. Please
           avoid abuse!
         </p>
-        {isError && (
-          <div className="flex items-center space-x-2 text-red-600 mb-4">
-            <AlertCircle className="h-5 w-5" />
-            <p className="text-sm">
-              Error: {error?.message || "Failed to fetch assets"}
-            </p>
-          </div>
-        )}
       </CardContent>
       <CardFooter>
         <Button
