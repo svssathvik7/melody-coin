@@ -12,6 +12,7 @@ import {
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { AlertCircle, Loader2 } from "lucide-react";
+import toaster from "@/utils/toaster";
 
 export default function GetFaucetAssets() {
   const {
@@ -40,6 +41,9 @@ export default function GetFaucetAssets() {
       });
     } catch (error) {
       console.log(error);
+      // revise: handle time, abuse etc errors
+      toaster("success", "Error fetching assets from faucet");
+      return error;
     }
   };
 
