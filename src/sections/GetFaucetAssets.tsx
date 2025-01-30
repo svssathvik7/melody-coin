@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/card";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import toaster from "@/utils/toaster";
-import { useEffect } from "react";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 export default function GetFaucetAssets() {
+  const addRecentTransaction = useAddRecentTransaction();
   const {
     data: hash,
     isPending,
@@ -40,15 +41,26 @@ export default function GetFaucetAssets() {
         functionName: "getFaucetAssets",
         args: [],
       });
-      toaster("success", "Added 0.1 MLD to your wallet");
+
       return;
     } catch (error) {
       console.log(error);
       // revise: handle time, abuse etc errors
-      toaster("success", "Error fetching assets from faucet");
+      toaster("error", "Error fetching assets from faucet");
       return error;
     }
   };
+
+  if (hash) {
+    addRecentTransaction({
+      hash,
+      description: "Requesting 0.1 MLD",
+    });
+  }
+
+  if (error) {
+    toaster("error", error.name + " is the error");
+  }
 
   return (
     <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
