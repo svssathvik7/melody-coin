@@ -14,8 +14,10 @@ import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { Loader2 } from "lucide-react";
 import toaster from "@/utils/toaster";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { useState } from "react";
 
 export default function GetFaucetAssets() {
+  const [reqLoading, setReqLoading] = useState(false);
   const addRecentTransaction = useAddRecentTransaction();
   const {
     data: hash,
@@ -34,6 +36,7 @@ export default function GetFaucetAssets() {
 
   const fetchAssetsFromFaucet = async () => {
     console.log("Fetching assets from faucet");
+    setReqLoading(true);
     try {
       await writeContract({
         address: CONTRACT_ADDRESS,
@@ -41,13 +44,12 @@ export default function GetFaucetAssets() {
         functionName: "getFaucetAssets",
         args: [],
       });
-
-      return;
     } catch (error) {
       console.log(error);
       // revise: handle time, abuse etc errors
       toaster("error", "Error fetching assets from faucet");
-      return error;
+    } finally {
+      setReqLoading(false);
     }
   };
 
@@ -58,7 +60,7 @@ export default function GetFaucetAssets() {
     });
   }
 
-  if (error) {
+  if (!isConfirming && reqLoading && error) {
     toaster("error", error.name + " is the error");
   }
 
