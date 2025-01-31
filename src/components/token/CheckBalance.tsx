@@ -19,13 +19,6 @@ export default function CheckBalance() {
     setBalance(fetchedBalance)
   }
 
-  useEffect(() => {
-    if (address) {
-      setUserAddress(address)
-      fetchBalance()
-    }
-  }, [address, fetchBalance]) // Added fetchBalance to dependencies
-
   useWatchContractEvent({
     address: CONTRACT_ADDRESS,
     abi: MELODY_COIN_ABI,

@@ -33,3 +33,21 @@ export const approveRevertMapping = (error: BaseError) => {
   }
   return "Error approving payer!";
 };
+
+export const transferRevertMapping = (error: BaseError) => {
+  const revertError = error.walk(
+    (err) => err instanceof ContractFunctionExecutionError
+  );
+  if (!revertError) {
+    return "Failed to transfer funds!";
+  }
+  if (revertError.message.includes("InvalidAddress")) {
+    return "Can't include zero address!";
+  } else if (revertError.message.includes("ContractPaused")) {
+    return "Contract paused! Can't approve payers";
+  } else if (revertError.message.includes("InsufficientFunds")) {
+    return "Insufficient funds!";
+  } else {
+    return "Error transferring funds!";
+  }
+};
