@@ -13,6 +13,7 @@
 .env
 # testing
 /coverage
+whattodonext.md
 
 # next.js
 /.next/

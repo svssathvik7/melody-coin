@@ -43,12 +43,6 @@ export default function ApprovePayer() {
         functionName: "approve",
         args: [spenderAddress, allowanceInWei],
       });
-      if (hash) {
-        addRecentTransaction({
-          hash,
-          description: `Approve ${allowanceInWei} to ${spenderAddress}}`,
-        });
-      }
     } catch (error) {
       console.log(error);
       toaster("error", "Error approving payer");
@@ -56,6 +50,14 @@ export default function ApprovePayer() {
       setIsApproving(false);
     }
   };
+  if (hash) {
+    addRecentTransaction({
+      hash,
+      description: `Approve ${parseEther(
+        allowanceInEth.toString()
+      )} to ${spenderAddress}}`,
+    });
+  }
 
   return (
     <Card className="h-[40dvh] text-black bg-white w-[30dvw] flex flex-col items-center justify-center my-8 overflow-y-scroll">

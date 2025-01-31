@@ -1,8 +1,8 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import ApprovePayer from "@/sections/ApprovePayer";
-import CheckBalance from "@/sections/CheckBalance";
-import GetFaucetAssets from "@/sections/GetFaucetAssets";
+import ApprovePayer from "@/components/token/ApprovePayer";
+import CheckBalance from "@/components/token/CheckBalance";
+import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import HeroSection from "@/sections/HeroSection";
 import { useAccount } from "wagmi";
 
