@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,68 +11,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { 
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  type BaseError,
+  useAccount, 
+} from "wagmi";
 import { Loader2 } from "lucide-react";
 import toaster from "@/utils/toaster";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { useEffect } from "react";
+import { client } from '@/config/viemConfig';
 
 export default function GetFaucetAssets() {
+  const {address} = useAccount();
   const addRecentTransaction = useAddRecentTransaction();
-  const {
-    data: hash,
-    isPending,
-    writeContract,
-    isError,
-    error,
-  } = useWriteContract();
-
-  const {
-    isLoading: isConfirming,
-    isSuccess: isConfirmed,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
-  useEffect(() => {
-    console.log("isConfirmed", isConfirmed);
-    console.log("isConfirming", isConfirming);
-    console.log("isError", isError);
-    console.log("error", error);
-    console.log("isPending", isPending);
-    console.log("hash", hash);
-    if (isConfirmed) {
-      toaster("success", "0.1 MLD tokens requested");
-    }
-  }, [isConfirmed, isConfirming, isError, error, isPending, hash]);
-
-  const fetchAssetsFromFaucet = async () => {
-    console.log("Fetching assets from faucet");
+  const fetchAssetsFromFaucet = async()=>{
     try {
-      writeContract({
+      const result = await client.simulateContract({
         address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
-        functionName: "getFaucetAssets",
+        functionName: 'getFaucetAssets',
         args: [],
+        account: address
       });
+      console.log("result : ",result);
     } catch (error) {
-      console.log(error);
-      toaster("error", "Error fetching assets from faucet");
+      console.log("Error at faucet " ,error);
     }
-  };
-
-  // Add recent transaction once hash is available
-  if (hash) {
-    addRecentTransaction({
-      hash,
-      description: "Requesting 0.1 MLD",
-    });
   }
-
-  // Show error toaster if isError is true
-  if (isError) {
-    toaster("error", error?.message || "Something went wrong");
-  }
-
   return (
     <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
       <CardHeader>
@@ -85,21 +52,41 @@ export default function GetFaucetAssets() {
           Faucet reserves are limited and are meant for testing purposes. Please
           avoid abuse!
         </p>
+        
+        {/* Show transaction hash when available */}
+        {/* {hash && (
+          <div className="text-xs text-gray-600 break-all">
+            Transaction Hash: {hash}
+          </div>
+        )} */}
+        
+        {/* Show confirmation status */}
+        {/* {isConfirming && (
+          <div className="text-sm text-gray-600 mt-2">
+            Waiting for confirmation...
+          </div>
+        )} */}
+        
+        {/* Show success message */}
+        {/* {isConfirmed && (
+          <div className="text-sm text-green-600 mt-2">
+            Transaction confirmed.
+          </div>
+        )} */}
+        
+        {/* Show error message if present
+        (
+          <div className="text-sm text-red-600 mt-2">
+              Error: {(error as BaseError)?.shortMessage || error?.name || "Unknown error"} 
+          </div>
+        ) */}
       </CardContent>
       <CardFooter>
         <Button
           onClick={fetchAssetsFromFaucet}
-          disabled={isPending || isConfirming}
           className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
         >
-          {isPending || isConfirming ? (
-            <>
-              Requesting 0.1 MLD...
-              <Loader2 className="mx-1 h-4 w-4 animate-spin" />
-            </>
-          ) : (
-            "Get 0.1 MLD"
-          )}
+          "Get 0.1 MLD"
         </Button>
       </CardFooter>
     </Card>

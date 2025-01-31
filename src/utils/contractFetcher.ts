@@ -24,7 +24,7 @@ export const getAllowance = async (owner: string, spender: string) => {
     ])) as bigint;
     return formatUnits(allowance, 18);
   } catch (error) {
-    console.log(error);
+    console.log(error.name);
     toaster("error", "Failed to fetch allowance");
   }
 };
