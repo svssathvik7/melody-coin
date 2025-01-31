@@ -14,18 +14,29 @@ import { Label } from "@/components/ui/label";
 import toaster from "@/utils/toaster";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { parseEther } from "viem";
+import { BaseError, parseEther } from "viem";
+import { client } from "@/config/viemConfig";
+import { approveRevertMapping } from "@/utils/revertMapper";
 
 export default function ApprovePayer() {
   const [spenderAddress, setSpenderAddress] = useState("");
   const [allowanceInEth, setAllowanceInEth] = useState<number | string>("");
-  const [isApproving, setIsApproving] = useState(false);
   const addRecentTransaction = useAddRecentTransaction();
-
-  const { data: hash, isPending, writeContract } = useWriteContract();
+  const { address } = useAccount();
+  const { data: hash, writeContract } = useWriteContract();
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   const approveSpender = async () => {
     if (!spenderAddress || !allowanceInEth) {
@@ -33,29 +44,39 @@ export default function ApprovePayer() {
       return;
     }
 
-    setIsApproving(true);
     try {
-      // Your approval logic here
       const allowanceInWei = parseEther(allowanceInEth.toString());
+      const { result } = await client.simulateContract({
+        address: CONTRACT_ADDRESS,
+        abi: MELODY_COIN_ABI,
+        functionName: "approve",
+        account: address,
+        args: [spenderAddress, allowanceInWei],
+      });
       writeContract({
         address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
         functionName: "approve",
         args: [spenderAddress, allowanceInWei],
       });
+      console.log(result);
     } catch (error) {
       console.log(error);
-      toaster("error", "Error approving payer");
-    } finally {
-      setIsApproving(false);
+      if (error instanceof BaseError) {
+        const errorText = approveRevertMapping(error);
+        toaster("error", errorText);
+      } else {
+        toaster("error", "Failed to approve spender");
+      }
     }
   };
+
   if (hash) {
     addRecentTransaction({
       hash,
       description: `Approve ${parseEther(
         allowanceInEth.toString()
-      )} to ${spenderAddress}}`,
+      )} to ${spenderAddress}`,
     });
   }
 
@@ -96,14 +117,15 @@ export default function ApprovePayer() {
       <CardFooter>
         <Button
           onClick={approveSpender}
-          disabled={isApproving}
+          disabled={isConfirming}
           className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
         >
-          {isApproving ? (
+          {isConfirming ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Approving...
+              <Loader2 className="animate-spin w-5 h-5 mr-2" /> Confirming...
             </>
+          ) : isConfirmed ? (
+            "Approved ✅"
           ) : (
             "Approve"
           )}

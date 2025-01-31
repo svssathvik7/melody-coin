@@ -50,7 +50,7 @@ export default function GetFaucetAssets() {
       });
       console.log("result : ", result);
     } catch (error) {
-      console.log("Error at faucet ", error, typeof error);
+      console.log("Error at faucet ", error);
       if (error instanceof BaseError) {
         const errorText = faucetRevertMapping(error);
         toaster("error", errorText);
@@ -67,7 +67,7 @@ export default function GetFaucetAssets() {
     });
   }
   return (
-    <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
+    <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Melody Coin Faucet</CardTitle>
         <CardDescription className="text-gray-600">

@@ -33,7 +33,7 @@ export default function CheckAllowance() {
   };
 
   return (
-    <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
+    <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Check Allowance</CardTitle>
       </CardHeader>

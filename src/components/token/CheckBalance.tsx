@@ -37,7 +37,7 @@ export default function CheckBalance() {
     }
   )
   return (
-    <Card className="h-[30dvh] text-black bg-white w-[30dvw] flex flex-col items-center justify-center my-8">
+    <Card className="h-[35dvh] text-black bg-white w-[30dvw] flex flex-col items-center justify-center my-8">
       <CardHeader>
         <img className="w-20 rounded-full" alt="melody-coin-logo" src="./assets/melody-coin-logo.png"/>
       </CardHeader>

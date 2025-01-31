@@ -22,6 +22,11 @@ export default function Home() {
       ) : (
         <p className="text-white">Please connect to your wallet!</p>
       )}
+      {isConnected && (
+        <div>
+          <ApprovePayer />
+        </div>
+      )}
     </div>
   );
 }
