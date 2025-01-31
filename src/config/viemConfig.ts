@@ -1,5 +1,10 @@
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
-import { createPublicClient, getContract, http } from "viem";
+import {
+  createPublicClient,
+  createWalletClient,
+  getContract,
+  http,
+} from "viem";
 import { anvil, sepolia } from "viem/chains";
 
 // Define the local Anvil chain
@@ -27,7 +32,6 @@ export const client = createPublicClient({
   chain: sepolia,
   transport: http(),
 });
-
 // Get the contract instance
 const contract = getContract({
   address: CONTRACT_ADDRESS,

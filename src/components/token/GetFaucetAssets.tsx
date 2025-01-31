@@ -34,20 +34,20 @@ export default function GetFaucetAssets() {
 
   const fetchAssetsFromFaucet = async () => {
     try {
-      const { result } = await client.simulateContract({
+      // const { request } = await client.simulateContract({
+      //   address: CONTRACT_ADDRESS,
+      //   abi: MELODY_COIN_ABI,
+      //   functionName: "getFaucetAssets",
+      //   args: [],
+      //   account: address,
+      // });
+      writeContract({
         address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
         functionName: "getFaucetAssets",
         args: [],
         account: address,
       });
-      writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: MELODY_COIN_ABI,
-        functionName: "getFaucetAssets",
-        args: [],
-      });
-      console.log("result : ", result);
     } catch (error) {
       console.log("Error at faucet ", error);
       if (error instanceof BaseError) {
