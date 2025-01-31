@@ -73,7 +73,7 @@ export default function GetFaucetAssets() {
   }
 
   return (
-    <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
+    <Card className="h-[30dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md overflow-y-scroll">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Melody Coin Faucet</CardTitle>
         <CardDescription className="text-gray-600">

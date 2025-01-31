@@ -1,6 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import ApprovePayer from "@/components/token/ApprovePayer";
+import CheckAllowance from "@/components/token/CheckAllowance";
 import CheckBalance from "@/components/token/CheckBalance";
 import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import HeroSection from "@/sections/HeroSection";
@@ -16,7 +17,7 @@ export default function Home() {
         <div className="flex w-screen items-center justify-around gap-2">
           <CheckBalance />
           <GetFaucetAssets />
-          <ApprovePayer />
+          <CheckAllowance />
         </div>
       ) : (
         <p className="text-white">Please connect to your wallet!</p>
