@@ -69,3 +69,21 @@ export const transferFromRevertMapping = (error: BaseError) => {
     return "Error transferring funds!";
   }
 };
+
+export const mintTokensRevertMapping = (error: BaseError) => {
+  const revertError = error.walk(
+    (err) => err instanceof ContractFunctionExecutionError
+  );
+  if (!revertError) {
+    return "Failed to mint tokens!";
+  }
+  if (revertError.message.includes("NotAnOwner")) {
+    return "Only owner can mint tokens!";
+  } else if (revertError.message.includes("ContractPaused")) {
+    return "Contract paused! Can't mint tokens";
+  } else if (revertError.message.includes("MaxCapExceeded")) {
+    return "Can't mint more tokens! Read token governance for maxCap rules";
+  } else {
+    return "Error minting tokens!";
+  }
+};

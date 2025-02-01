@@ -2,7 +2,7 @@ import contract from "@/config/viemConfig";
 import { formatUnits } from "viem";
 import toaster from "./toaster";
 
-export const getOwner = async () => {
+export const getContractOwner = async () => {
   try {
     const owner = await contract.read.owner_();
     return owner as `0x${string}`;
