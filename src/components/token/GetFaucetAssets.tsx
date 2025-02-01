@@ -19,22 +19,11 @@ import { faucetRevertMapping } from "@/utils/revertMapper";
 import { BaseError } from "viem";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useEffect } from "react";
+import { client } from "@/config/viemConfig";
 
 export default function GetFaucetAssets() {
-  const { address } = useAccount();
-  const addRecentTransaction = useAddRecentTransaction();
-  const {
-    data: hash,
-    error: initError,
-    isPending: initPending,
-    writeContract,
-  } = useWriteContract();
-
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
   const fetchAssetsFromFaucet = async () => {
-    if (!address) {
-      toaster("error", "Connect your wallet to claim MLD.");
-      return;
-    }
     try {
       writeContract({
         address: CONTRACT_ADDRESS,
@@ -42,65 +31,15 @@ export default function GetFaucetAssets() {
         functionName: "getFaucetAssets",
         args: [],
       });
-      if (hash) {
-        addRecentTransaction({
-          hash,
-          description: "Get 0.1MLD",
-        });
-      }
     } catch (error) {
-      console.error("Error at faucet ", error); // Use console.error for errors
-      toaster("error", "Failed to get drip from faucet!");
+      console.log(error);
+      return toaster("error", (error as BaseError).shortMessage);
     }
   };
   const {
-    isLoading: txLoading,
-    error: txError,
-    isError: txIsError,
-    data: txData,
-    isSuccess: txIsSuccess,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
-
-  useEffect(() => {
-    console.log("txIsLoading,", txLoading);
-    console.log("txIsError,", txIsError);
-    if (txIsError) {
-      const error = txError;
-      let errorMessage = "An unknown error occurred. Please try again later.";
-      if (error instanceof BaseError) {
-        errorMessage = faucetRevertMapping(error) || errorMessage; // Provide fallback
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      toaster("error", errorMessage);
-      return;
-    }
-    if (initError) {
-      toaster("error", "Failed to get drip from faucet!");
-      return;
-    }
-    if (txIsSuccess) {
-      toaster("success", "Faucet assets claimed successfully!");
-      return;
-    }
-    console.log("txError,", txError);
-    console.log("txData,", txData);
-    console.log("initError,", initError);
-    console.log("initPending,", initPending);
-  }, [
-    txLoading,
-    txIsError,
-    txError,
-    txData,
-    initError,
-    initPending,
-    txIsSuccess,
-  ]);
-
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({ hash });
   return (
     <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
       <CardHeader className="pb-4">
@@ -117,11 +56,23 @@ export default function GetFaucetAssets() {
         </p>
       </CardContent>
       <CardFooter>
+        {hash && <div>Transaction hash : {hash}</div>}
+        {isConfirming && (
+          <div className="text-sm">Waiting for confirmation...</div>
+        )}
+        {isConfirmed && (
+          <div className="text-sm text-green-600">Transaction confirmed.</div>
+        )}
+        {error && (
+          <div className="text-sm text-red-600">
+            Error: {(error as BaseError).shortMessage || error.message}
+          </div>
+        )}
         <Button
           onClick={fetchAssetsFromFaucet}
           className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
         >
-          Get 0.1 MLD
+          {isConfirming ? "Getting 0.1 MLD..." : "Get 0.1 MLD"}
         </Button>
       </CardFooter>
     </Card>

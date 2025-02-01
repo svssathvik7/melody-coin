@@ -111,7 +111,7 @@ export default function ApprovePayer() {
       <CardFooter>
         <Button
           onClick={approveSpender}
-          disabled={isConfirming}
+          disabled={isConfirming || isConfirmed}
           className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
         >
           {isConfirming ? (

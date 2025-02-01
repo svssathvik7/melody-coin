@@ -28,9 +28,12 @@ export default function SelfTransfer() {
     hash,
   });
   const handleTransfer = async () => {
+    if (amount == 0) {
+      return toaster("error", "Amount cannot be 0");
+    }
     try {
       const amountInWei = parseEther(amount.toString());
-      const { result } = await client.simulateContract({
+      const { request } = await client.simulateContract({
         account: address,
         address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
@@ -39,13 +42,7 @@ export default function SelfTransfer() {
       });
       console.log("Amount  - ", amountInWei);
       console.log("toAddress - ", toAddress);
-      writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: MELODY_COIN_ABI,
-        functionName: "transfer",
-        args: [toAddress, amountInWei],
-      });
-      console.log("transfer result", result);
+      writeContract(request);
     } catch (error) {
       console.log(error);
       if (error instanceof BaseError) {
@@ -83,7 +80,7 @@ export default function SelfTransfer() {
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
             required
-            min={0}
+            min={0.000000000000000001}
             step={0.000000000000000001}
           />
         </div>
