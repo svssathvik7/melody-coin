@@ -8,17 +8,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAccount, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import toaster from "@/utils/toaster";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { faucetRevertMapping } from "@/utils/revertMapper";
 import { BaseError } from "viem";
-import { MELODY_COIN_ABI } from "@/constants/contractDetails";
+import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
+import { useEffect } from "react";
 
 export default function GetFaucetAssets() {
   const { address } = useAccount();
   const addRecentTransaction = useAddRecentTransaction();
-  const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const {
+    data: hash,
+    error: initError,
+    isPending: initPending,
+    writeContract,
+  } = useWriteContract();
 
   const fetchAssetsFromFaucet = async () => {
     if (!address) {
@@ -27,7 +37,7 @@ export default function GetFaucetAssets() {
     }
     try {
       writeContract({
-        address: address,
+        address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
         functionName: "getFaucetAssets",
         args: [],
@@ -38,11 +48,27 @@ export default function GetFaucetAssets() {
           description: "Get 0.1MLD",
         });
       }
-      toaster("success", "Faucet assets claimed successfully!");
     } catch (error) {
       console.error("Error at faucet ", error); // Use console.error for errors
+      toaster("error", "Failed to get drip from faucet!");
+    }
+  };
+  const {
+    isLoading: txLoading,
+    error: txError,
+    isError: txIsError,
+    data: txData,
+    isSuccess: txIsSuccess,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
 
-      let errorMessage = "Failed to get MLD drip";
+  useEffect(() => {
+    console.log("txIsLoading,", txLoading);
+    console.log("txIsError,", txIsError);
+    if (txIsError) {
+      const error = txError;
+      let errorMessage = "An unknown error occurred. Please try again later.";
       if (error instanceof BaseError) {
         errorMessage = faucetRevertMapping(error) || errorMessage; // Provide fallback
       } else if (typeof error === "string") {
@@ -50,10 +76,30 @@ export default function GetFaucetAssets() {
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-
       toaster("error", errorMessage);
+      return;
     }
-  };
+    if (initError) {
+      toaster("error", "Failed to get drip from faucet!");
+      return;
+    }
+    if (txIsSuccess) {
+      toaster("success", "Faucet assets claimed successfully!");
+      return;
+    }
+    console.log("txError,", txError);
+    console.log("txData,", txData);
+    console.log("initError,", initError);
+    console.log("initPending,", initPending);
+  }, [
+    txLoading,
+    txIsError,
+    txError,
+    txData,
+    initError,
+    initPending,
+    txIsSuccess,
+  ]);
 
   return (
     <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
