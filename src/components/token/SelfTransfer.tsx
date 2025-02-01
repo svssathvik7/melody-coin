@@ -60,6 +60,13 @@ export default function SelfTransfer() {
       description: `Transferring ${amount} to ${toAddress}`,
     });
   }
+
+  if (hash) {
+    addRecentTransaction({
+      hash,
+      description: `Transferring ${amount}MLD to ${toAddress}`,
+    });
+  }
   return (
     <Card>
       <CardContent className="space-y-2">

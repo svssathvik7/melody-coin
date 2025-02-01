@@ -12,21 +12,72 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import toaster from "@/utils/toaster";
+import { transferFromRevertMapping } from "@/utils/revertMapper";
+import { BaseError, parseEther } from "viem";
+import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
+import { client } from "@/config/viemConfig";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 export default function TransferFrom() {
+  const addRecentTransaction = useAddRecentTransaction();
   const [spenderAddress, setSpenderAddress] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
-  const [transferFromAmount, setTransferFromAmount] = useState("");
+  const [transferFromAmount, setTransferFromAmount] = useState(0);
+  const { address } = useAccount();
+  const { data: hash, writeContract } = useWriteContract();
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
 
-  const handleTransferFrom = (e: React.FormEvent) => {
+  const handleTransferFrom = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (transferFromAmount == 0) {
+      return toaster("error", "Amount cannot be 0");
+    }
     console.log("Transfer From:", {
       spenderAddress,
       receiverAddress,
       amount: transferFromAmount,
     });
-    // Add your transferFrom logic here
+    try {
+      const { request } = await client.simulateContract({
+        account: address,
+        address: CONTRACT_ADDRESS,
+        abi: MELODY_COIN_ABI,
+        functionName: "transferFrom",
+        args: [
+          spenderAddress,
+          receiverAddress,
+          parseEther(transferFromAmount.toString()),
+        ],
+      });
+      writeContract(request);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof BaseError) {
+        const errorText = transferFromRevertMapping(error);
+        toaster("error", errorText);
+      } else {
+        toaster("error", "Failed to transfer funds");
+      }
+    }
   };
+
+  if (hash) {
+    addRecentTransaction({
+      hash,
+      description: `Transferring ${transferFromAmount}MLD, from ${spenderAddress} to ${receiverAddress}`,
+    });
+  }
 
   return (
     <div className="rounded-lg p-2 w-full">
@@ -81,12 +132,12 @@ export default function TransferFrom() {
                 id="transferFromAmount"
                 type="number"
                 value={transferFromAmount}
-                onChange={(e) => setTransferFromAmount(e.target.value)}
+                onChange={(e) => setTransferFromAmount(Number(e.target.value))}
                 required
                 placeholder="Enter amount to transfer"
                 className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
-                min="0"
-                step="0.01"
+                min={0.000000000000000001}
+                step={0.000000000000000001}
               />
             </div>
           </CardContent>
@@ -95,7 +146,7 @@ export default function TransferFrom() {
               type="submit"
               className="w-full transition-all duration-200 hover:scale-105 bg-black text-white hover:bg-gray-900 rounded-lg"
             >
-              Transfer From
+              {isConfirming ? "Transferring..." : "Transfer"}
               <ArrowRightIcon className="ml-2 h-4 w-4" />
             </Button>
           </CardFooter>

@@ -51,3 +51,21 @@ export const transferRevertMapping = (error: BaseError) => {
     return "Error transferring funds!";
   }
 };
+
+export const transferFromRevertMapping = (error: BaseError) => {
+  const revertError = error.walk(
+    (err) => err instanceof ContractFunctionExecutionError
+  );
+  if (!revertError) {
+    return "Failed to transfer funds!";
+  }
+  if (revertError.message.includes("InsufficientFunds")) {
+    return "Insufficient funds at sender!";
+  } else if (revertError.message.includes("ContractPaused")) {
+    return "Contract paused! Can't approve payers";
+  } else if (revertError.message.includes("InsufficientAllowance")) {
+    return "Insufficient allowance!";
+  } else {
+    return "Error transferring funds!";
+  }
+};
