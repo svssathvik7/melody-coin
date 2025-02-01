@@ -46,20 +46,14 @@ export default function ApprovePayer() {
 
     try {
       const allowanceInWei = parseEther(allowanceInEth.toString());
-      const { result } = await client.simulateContract({
+      const { request } = await client.simulateContract({
         address: CONTRACT_ADDRESS,
         abi: MELODY_COIN_ABI,
         functionName: "approve",
         account: address,
         args: [spenderAddress, allowanceInWei],
       });
-      writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: MELODY_COIN_ABI,
-        functionName: "approve",
-        args: [spenderAddress, allowanceInWei],
-      });
-      console.log(result);
+      writeContract(request);
     } catch (error) {
       console.log(error);
       if (error instanceof BaseError) {

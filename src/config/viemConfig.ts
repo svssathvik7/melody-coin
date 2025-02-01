@@ -6,26 +6,8 @@ import {
   http,
 } from "viem";
 import { anvil, sepolia } from "viem/chains";
-
-// Define the local Anvil chain
-// const anvil = {
-//   id: 31337,
-//   name: "Anvil",
-//   network: "anvil",
-//   nativeCurrency: {
-//     decimals: 18,
-//     name: "Ethereum",
-//     symbol: "ETH",
-//   },
-//   rpcUrls: {
-//     default: {
-//       http: ["http://127.0.0.1:8545"],
-//     },
-//     public: {
-//       http: ["http://127.0.0.1:8545"],
-//     },
-//   },
-// } as const;
+import { cookieStorage, createConfig, createStorage } from "wagmi";
+import { metaMask, walletConnect } from "wagmi/connectors";
 
 // Create the public client
 export const client = createPublicClient({
@@ -37,6 +19,23 @@ const contract = getContract({
   address: CONTRACT_ADDRESS,
   abi: MELODY_COIN_ABI,
   client,
+});
+
+export const walletClient = createConfig({
+  chains: [sepolia],
+  connectors: [
+    walletConnect({
+      projectId: "MelodyCoin",
+    }),
+    metaMask(),
+  ],
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
+  ssr: true,
+  transports: {
+    [sepolia.id]: http(),
+  },
 });
 
 export default contract;

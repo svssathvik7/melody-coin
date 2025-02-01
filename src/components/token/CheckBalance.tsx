@@ -19,6 +19,12 @@ export default function CheckBalance() {
     setBalance(fetchedBalance)
   }
 
+  useEffect(
+    ()=>{
+      fetchBalance();
+    }
+  ,[])
+
   useWatchContractEvent({
     address: CONTRACT_ADDRESS,
     abi: MELODY_COIN_ABI,
