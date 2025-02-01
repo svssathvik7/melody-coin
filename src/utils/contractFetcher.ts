@@ -37,3 +37,16 @@ export const getAllowance = async (owner: string, spender: string) => {
     toaster("error", "Failed to fetch allowance");
   }
 };
+
+
+export const getPauseState = async ()=>{
+  try{
+    const paused = await contract.read.paused();
+    return paused as boolean;
+  }
+  catch(error){
+    console.log(error);
+    toaster("error","Failed to toggle pause state");
+    return true;
+  }
+}

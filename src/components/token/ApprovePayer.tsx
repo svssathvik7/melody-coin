@@ -28,8 +28,8 @@ import { approveRevertMapping } from "@/utils/revertMapper";
 export default function ApprovePayer() {
   const [spenderAddress, setSpenderAddress] = useState("");
   const [allowanceInEth, setAllowanceInEth] = useState<number | string>("");
-  const addRecentTransaction = useAddRecentTransaction();
   const { address } = useAccount();
+  const addRecentTransaction = useAddRecentTransaction();
   const { data: hash, writeContract } = useWriteContract();
   const {
     isLoading: isConfirming,

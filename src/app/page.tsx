@@ -5,6 +5,7 @@ import CheckAllowance from "@/components/token/CheckAllowance";
 import CheckBalance from "@/components/token/CheckBalance";
 import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import MintTokens from "@/components/token/MintTokens";
+import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
 import HeroSection from "@/sections/HeroSection";
 import { getContractOwner } from "@/utils/contractFetcher";
@@ -43,6 +44,7 @@ export default function Home() {
       {isConnected && isOwner && (
         <div className="flex w-screen items-center justify-around gap-2">
           <MintTokens />
+          <TogglePause />
         </div>
       )}
     </div>
