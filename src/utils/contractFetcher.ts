@@ -2,9 +2,18 @@ import contract from "@/config/viemConfig";
 import { formatUnits } from "viem";
 import toaster from "./toaster";
 
+export const getOwner = async () => {
+  try {
+    const owner = await contract.read.owner_();
+    return owner as `0x${string}`;
+  } catch (error) {
+    console.log(error);
+    toaster("error", "Failed to get owner");
+  }
+};
+
 export const getBalance = async (address: string) => {
   try {
-    console.log("address : ", address);
     const balance: bigint = (await contract.read.balanceOf([
       address,
     ])) as bigint;

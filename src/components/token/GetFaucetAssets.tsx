@@ -14,32 +14,49 @@ import {
   useWriteContract,
 } from "wagmi";
 import toaster from "@/utils/toaster";
-import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { faucetRevertMapping } from "@/utils/revertMapper";
 import { BaseError } from "viem";
-import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
-import { useEffect } from "react";
+import { faucetRevertMapping } from "@/utils/revertMapper";
 import { client } from "@/config/viemConfig";
+import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 export default function GetFaucetAssets() {
-  const { data: hash, error, isPending, writeContract } = useWriteContract();
-  const fetchAssetsFromFaucet = async () => {
-    try {
-      writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: MELODY_COIN_ABI,
-        functionName: "getFaucetAssets",
-        args: [],
-      });
-    } catch (error) {
-      console.log(error);
-      return toaster("error", (error as BaseError).shortMessage);
-    }
-  };
+  const { address } = useAccount();
+  const addRecentTransaction = useAddRecentTransaction();
+  const { data: hash, writeContract } = useWriteContract();
   const {
     isLoading: isConfirming,
     isSuccess: isConfirmed,
-  } = useWaitForTransactionReceipt({ hash });
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+  const fetchAssetsFromFaucet = async () => {
+    try {
+      const { request } = await client.simulateContract({
+        address: CONTRACT_ADDRESS,
+        abi: MELODY_COIN_ABI,
+        functionName: "getFaucetAssets",
+        account: address,
+        args: [],
+      });
+      writeContract(request);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof BaseError) {
+        const errorText = faucetRevertMapping(error);
+        toaster("error", errorText);
+      } else {
+        toaster("error", "Failed get assets from faucet");
+      }
+    }
+  };
+
+  if (hash) {
+    addRecentTransaction({
+      hash,
+      description: `Get 0.1MLD from faucet`,
+    });
+  }
   return (
     <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
       <CardHeader className="pb-4">
@@ -62,11 +79,6 @@ export default function GetFaucetAssets() {
         )}
         {isConfirmed && (
           <div className="text-sm text-green-600">Transaction confirmed.</div>
-        )}
-        {error && (
-          <div className="text-sm text-red-600">
-            Error: {(error as BaseError).shortMessage || error.message}
-          </div>
         )}
         <Button
           onClick={fetchAssetsFromFaucet}
