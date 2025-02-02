@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,6 +22,10 @@ export default function CheckAllowance() {
   const [allowance, setAllowance] = useState<string | undefined>("0");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setAllowance("0");
+  }, [spender, owner]);
 
   const handleCheck = async () => {
     setIsLoading(true);
