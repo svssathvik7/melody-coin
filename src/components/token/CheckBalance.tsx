@@ -40,7 +40,7 @@ export default function CheckBalance() {
   })
 
   return (
-    <Card className="w-full max-w-md mx-auto my-8 text-black bg-white shadow-lg">
+    <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg">
       <CardHeader className="text-center">
         <img
           className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"

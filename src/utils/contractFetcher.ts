@@ -1,5 +1,5 @@
 import contract from "@/config/viemConfig";
-import { formatUnits } from "viem";
+import { BaseError, formatUnits } from "viem";
 import toaster from "./toaster";
 
 export const getContractOwner = async () => {
@@ -8,7 +8,7 @@ export const getContractOwner = async () => {
     return owner as `0x${string}`;
   } catch (error) {
     console.log(error);
-    toaster("error", "Failed to get owner");
+    toaster("error", (error as BaseError).shortMessage);
   }
 };
 
@@ -20,7 +20,7 @@ export const getBalance = async (address: string) => {
     return formatUnits(balance, 18);
   } catch (error) {
     console.log(error);
-    toaster("error", "Failed to get balance");
+    toaster("error", (error as BaseError).shortMessage);
     return formatUnits(BigInt(0), 18);
   }
 };
@@ -34,7 +34,7 @@ export const getAllowance = async (owner: string, spender: string) => {
     return formatUnits(allowance, 18);
   } catch (error) {
     console.log(error);
-    toaster("error", "Failed to fetch allowance");
+    toaster("error", (error as BaseError).shortMessage);
   }
 };
 
@@ -46,7 +46,7 @@ export const getPauseState = async ()=>{
   }
   catch(error){
     console.log(error);
-    toaster("error","Failed to toggle pause state");
+    toaster("error", (error as BaseError).shortMessage);
     return true;
   }
 }

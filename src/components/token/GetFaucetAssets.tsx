@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import Lottie from "lottie-react";
 import {
@@ -26,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Info } from "lucide-react";
+import { AlertCircle, Info, CheckCircle2, Loader2 } from "lucide-react";
 import FaucetAnimation from "../../assets/lotties/FaucetLottie.json";
 
 export default function GetFaucetAssets() {
@@ -39,6 +40,7 @@ export default function GetFaucetAssets() {
   } = useWaitForTransactionReceipt({
     hash,
   });
+
   const fetchAssetsFromFaucet = async () => {
     try {
       const { request } = await client.simulateContract({
@@ -66,42 +68,77 @@ export default function GetFaucetAssets() {
       description: `Get 0.1MLD from faucet`,
     });
   }
+
   return (
-    <Card className="w-full max-w-md mx-auto my-8 text-black bg-white shadow-lg">
-      <CardHeader className="pb-4 flex items-center justify-center">
-        <Lottie className="w-24" animationData={FaucetAnimation} loop={true} />
-        <CardTitle className="text-2xl font-bold">Melody Coin Faucet</CardTitle>
+    <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 text-black bg-white shadow-lg flex flex-col">
+      <CardHeader className="pb-2 text-center">
+        <div className="flex justify-center mb-2">
+          <Lottie
+            className="w-24"
+            animationData={FaucetAnimation}
+            loop={true}
+          />
+        </div>
+        <CardTitle className="text-3xl font-bold mb-2">
+          Melody Coin Faucet
+        </CardTitle>
         <CardDescription className="text-gray-600 flex items-center justify-center gap-2">
           Get test MLD tokens
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Info />
+                <Info className="w-4 h-4" />
               </TooltipTrigger>
-              <TooltipContent className="bg-black text-white w-[30dvw] rounded-2xl">
-                Faucet reserves are limited and are meant for testing purposes.
-                Please avoid abuse! You can claim MLD tokens once every 24
-                hours. If your balance is 1.5 MLD or more, you are not eligible
-                for the faucet.
+              <TooltipContent className="bg-black text-white w-[30dvw] rounded-2xl p-3">
+                <p>
+                  You can claim MLD tokens once every 24 hours. If your balance
+                  is 1.5 MLD or more, you are not eligible for the faucet.
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4"></CardContent>
-      <CardFooter>
-        {hash && <div>Transaction hash : {hash}</div>}
+      <CardContent className="flex-grow flex flex-col justify-center px-6">
+        <p className="text-center text-gray-700 mb-4">
+          Faucet reserves are limited and are meant for testing purposes. Please
+          avoid abuse!
+        </p>
+        {hash && (
+          <div className="text-sm bg-gray-100 p-3 rounded-md mb-4 break-all">
+            <span className="font-semibold">Transaction hash:</span> {hash}
+          </div>
+        )}
         {isConfirming && (
-          <div className="text-sm">Waiting for confirmation...</div>
+          <div className="text-sm text-blue-600 flex items-center justify-center gap-2 mb-4">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Waiting for confirmation...
+          </div>
         )}
         {isConfirmed && (
-          <div className="text-sm text-green-600">Transaction confirmed.</div>
+          <div className="text-sm text-green-600 flex items-center justify-center gap-2 mb-4">
+            <CheckCircle2 className="w-4 h-4" />
+            Transaction confirmed.
+          </div>
         )}
+      </CardContent>
+      <CardFooter>
         <Button
           onClick={fetchAssetsFromFaucet}
-          className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
+          className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+          disabled={isConfirming}
         >
-          {isConfirming ? "Getting 0.1 MLD..." : "Get 0.1 MLD"}
+          {isConfirming ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Getting 0.1 MLD...
+            </>
+          ) : (
+            <>
+              <AlertCircle className="w-4 h-4" />
+              Get 0.1 MLD
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>
