@@ -81,10 +81,25 @@ export default function CheckAllowance() {
           />
         </div>
         <div className="pt-4 text-center">
-          <p className="text-sm font-medium text-muted-foreground mb-1">
-            Allowance granted:
-          </p>
-          <p className="text-3xl font-bold text-primary">{allowance}</p>
+          <Button
+            onClick={handleCheck}
+            disabled={isLoading || !owner || !spender}
+            className="w-full transition-all duration-300 py-6 text-lg font-semibold bg-black text-white"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Checking...
+              </>
+            ) : allowance !== "0" && !error ? (
+              <>
+                <CheckCircle2 className="mr-2 h-5 w-5" />
+                Allowance Checked
+              </>
+            ) : (
+              "Check Allowance"
+            )}
+          </Button>
         </div>
         {error && (
           <div className="text-red-500 text-sm flex items-center justify-center">
@@ -92,28 +107,12 @@ export default function CheckAllowance() {
             {error}
           </div>
         )}
+        <p className="text-sm font-medium text-muted-foreground mb-1">
+          Allowance granted:
+        </p>
+        <p className="text-3xl font-bold text-primary">{allowance}</p>
       </CardContent>
-      <CardFooter>
-        <Button
-          onClick={handleCheck}
-          disabled={isLoading || !owner || !spender}
-          className="w-full transition-all duration-300 py-6 text-lg font-semibold bg-black text-white"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Checking...
-            </>
-          ) : allowance !== "0" && !error ? (
-            <>
-              <CheckCircle2 className="mr-2 h-5 w-5" />
-              Allowance Checked
-            </>
-          ) : (
-            "Check Allowance"
-          )}
-        </Button>
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }

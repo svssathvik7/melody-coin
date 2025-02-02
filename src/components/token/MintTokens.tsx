@@ -68,7 +68,7 @@ export default function MintTokens() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg">
+    <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh]">
       <CardHeader className="text-center">
         <Lottie
           loop={true}
