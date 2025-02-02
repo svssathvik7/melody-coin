@@ -5,7 +5,7 @@ export const faucetRevertMapping = (error: BaseError) => {
     (err) => err instanceof ContractFunctionExecutionError
   );
   if (!revertError) {
-    return "Failed to fetch drip";
+    return error.shortMessage;
   }
   if (revertError.message.includes("TooFrequentRequests")) {
     return "Faucet drip limited to once per 24hours";
@@ -22,7 +22,7 @@ export const approveRevertMapping = (error: BaseError) => {
     (err) => err instanceof ContractFunctionExecutionError
   );
   if (!revertError) {
-    return "Failed to approve payer!";
+    return error.shortMessage;
   }
   if (revertError.message.includes("InvalidAddress")) {
     return "Can't include zero address!";
@@ -39,7 +39,7 @@ export const transferRevertMapping = (error: BaseError) => {
     (err) => err instanceof ContractFunctionExecutionError
   );
   if (!revertError) {
-    return "Failed to transfer funds!";
+    return error.shortMessage;
   }
   if (revertError.message.includes("InvalidAddress")) {
     return "Can't include zero address!";
@@ -57,7 +57,7 @@ export const transferFromRevertMapping = (error: BaseError) => {
     (err) => err instanceof ContractFunctionExecutionError
   );
   if (!revertError) {
-    return "Failed to transfer funds!";
+    return error.shortMessage;
   }
   if (revertError.message.includes("InsufficientFunds")) {
     return "Insufficient funds at sender!";
@@ -75,7 +75,7 @@ export const mintTokensRevertMapping = (error: BaseError) => {
     (err) => err instanceof ContractFunctionExecutionError
   );
   if (!revertError) {
-    return "Failed to mint tokens!";
+    return error.shortMessage;
   }
   if (revertError.message.includes("NotAnOwner")) {
     return "Only owner can mint tokens!";

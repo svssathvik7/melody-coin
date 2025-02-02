@@ -12,8 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import toaster from "@/utils/toaster";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Loader2, CheckCircle, AlertCircle, CheckCircle2 } from "lucide-react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -24,11 +24,14 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { BaseError, parseEther } from "viem";
 import { client } from "@/config/viemConfig";
 import { approveRevertMapping } from "@/utils/revertMapper";
+import Lottie from "lottie-react";
+import ApproveAnimation from "@/assets/lotties/ApproveLottie.json";
 
 export default function ApprovePayer() {
   const [spenderAddress, setSpenderAddress] = useState("");
   const [allowanceInEth, setAllowanceInEth] = useState<number | string>("");
   const { address } = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
   const addRecentTransaction = useAddRecentTransaction();
   const { data: hash, writeContract } = useWriteContract();
   const {
@@ -43,7 +46,7 @@ export default function ApprovePayer() {
       toaster("error", "Please fill in all fields");
       return;
     }
-
+    setIsLoading(true);
     try {
       const allowanceInWei = parseEther(allowanceInEth.toString());
       const { request } = await client.simulateContract({
@@ -62,6 +65,8 @@ export default function ApprovePayer() {
       } else {
         toaster("error", "Failed to approve spender");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -75,27 +80,40 @@ export default function ApprovePayer() {
   }
 
   return (
-    <Card className="h-[40dvh] text-black bg-white w-[30dvw] flex flex-col items-center justify-center my-8 overflow-y-scroll">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">Approve a Spender</CardTitle>
+    <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg flex flex-col">
+      <CardHeader className="text-center pb-2">
+        <div className="flex justify-center mb-2">
+          <Lottie
+            className="w-24"
+            loop={true}
+            animationData={ApproveAnimation}
+          />
+        </div>
+        <CardTitle className="text-3xl font-bold mb-2">
+          Approve a Spender
+        </CardTitle>
         <CardDescription className="text-gray-600">
           Set allowance for a spender address
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 flex-grow overflow-y-auto px-6">
         <div className="space-y-2">
-          <Label htmlFor="spender-address">Spender Address</Label>
+          <Label htmlFor="spender-address" className="text-sm font-medium">
+            Spender Address
+          </Label>
           <Input
             id="spender-address"
             value={spenderAddress}
             onChange={(e) => setSpenderAddress(e.target.value)}
             type="text"
             placeholder="0x..."
-            className="border-gray-300 focus:border-black focus:ring-black"
+            className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="allowance">Allowance (ETH)</Label>
+          <Label htmlFor="allowance" className="text-sm font-medium">
+            Allowance (ETH)
+          </Label>
           <Input
             id="allowance"
             value={allowanceInEth}
@@ -104,24 +122,35 @@ export default function ApprovePayer() {
             step={0.00001}
             min={0.0000000000000000001}
             placeholder="0.00"
-            className="border-gray-300 focus:border-black focus:ring-black"
+            className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
           />
         </div>
+        {hash && (
+          <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
+            <span className="font-semibold">Transaction hash:</span> {hash}
+          </div>
+        )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pt-4">
         <Button
           onClick={approveSpender}
-          disabled={isConfirming || isConfirmed}
-          className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
+          disabled={
+            isLoading || !spenderAddress || !allowanceInEth || isConfirmed
+          }
+          className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 py-6 text-lg font-semibold flex items-center justify-center"
         >
-          {isConfirming ? (
+          {isLoading || isConfirming ? (
             <>
-              <Loader2 className="animate-spin w-5 h-5 mr-2" /> Confirming...
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Granting...
             </>
           ) : isConfirmed ? (
-            "Approved ✅"
+            <>
+              <CheckCircle2 className="mr-2 h-5 w-5" />
+              Allowance granted
+            </>
           ) : (
-            "Approve"
+            "Grant Allowance"
           )}
         </Button>
       </CardFooter>

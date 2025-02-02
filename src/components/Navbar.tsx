@@ -3,7 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Navbar() {
   return (
-    <div className="w-full flex items-center justify-center my-2 fixed top-0">
+    <div className="w-[90dvw] mx-auto rounded-full flex items-center justify-center my-2 fixed top-0 bg-black p-2 z-50">
       <div className="w-1/2 flex items-center justify-start px-2">
         <p className="text-white text-2xl font-bold mx-2">Melody Coin</p>
       </div>

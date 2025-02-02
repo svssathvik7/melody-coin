@@ -1,8 +1,10 @@
-import { Label } from "@radix-ui/react-label";
-import { Card, CardContent, CardFooter } from "../ui/card";
-import { Input } from "../ui/input";
+"use client";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { ArrowRightIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { client } from "@/config/viemConfig";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import {
@@ -14,6 +16,7 @@ import { BaseError, parseEther } from "viem";
 import { transferRevertMapping } from "@/utils/revertMapper";
 import toaster from "@/utils/toaster";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import type React from "react"; // Added import for React
 
 export default function SelfTransfer() {
   const { address } = useAccount();
@@ -21,13 +24,12 @@ export default function SelfTransfer() {
   const [toAddress, setToAddress] = useState("");
   const [amount, setAmount] = useState(0);
   const { data: hash, writeContract } = useWriteContract();
-  const {
-    isLoading: isConfirming,
-    isSuccess: isConfirmed,
-  } = useWaitForTransactionReceipt({
+  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
     hash,
   });
-  const handleTransfer = async () => {
+
+  const handleTransfer = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (amount == 0) {
       return toaster("error", "Amount cannot be 0");
     }
@@ -40,8 +42,6 @@ export default function SelfTransfer() {
         functionName: "transfer",
         args: [toAddress, amountInWei],
       });
-      console.log("Amount  - ", amountInWei);
-      console.log("toAddress - ", toAddress);
       writeContract(request);
     } catch (error) {
       console.log(error);
@@ -53,13 +53,6 @@ export default function SelfTransfer() {
       }
     }
   };
-  if (hash) {
-    console.log(hash);
-    addRecentTransaction({
-      hash,
-      description: `Transferring ${amount} to ${toAddress}`,
-    });
-  }
 
   if (hash) {
     addRecentTransaction({
@@ -67,36 +60,63 @@ export default function SelfTransfer() {
       description: `Transferring ${amount}MLD to ${toAddress}`,
     });
   }
+
   return (
-    <Card>
-      <CardContent className="space-y-2">
-        <div className="space-y-1">
-          <Label htmlFor="toAddress">To Address</Label>
-          <Input
-            id="toAddress"
-            value={toAddress}
-            onChange={(e) => setToAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor="amount">Amount</Label>
-          <Input
-            id="amount"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-            required
-            min={0.000000000000000001}
-            step={0.000000000000000001}
-          />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button disabled={isConfirming} onClick={handleTransfer}>
-          {isConfirming ? "Transferring..." : "Transfer"}
-        </Button>
-      </CardFooter>
+    <Card className="border-0 shadow-none">
+      <form onSubmit={handleTransfer}>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label
+              htmlFor="toAddress"
+              className="text-sm font-medium text-gray-800"
+            >
+              To Address
+            </Label>
+            <Input
+              id="toAddress"
+              value={toAddress}
+              onChange={(e) => setToAddress(e.target.value)}
+              required
+              placeholder="Enter recipient's address"
+              className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label
+              htmlFor="amount"
+              className="text-sm font-medium text-gray-800"
+            >
+              Amount
+            </Label>
+            <Input
+              id="amount"
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              required
+              placeholder="Enter amount to transfer"
+              className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
+              min={0.000000000000000001}
+              step={0.000000000000000001}
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          {hash && (
+            <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
+              <span className="font-semibold">Transaction hash:</span> {hash}
+            </div>
+          )}
+          <Button
+            type="submit"
+            disabled={isConfirming}
+            className="w-full transition-all duration-200 hover:scale-105 bg-black text-white hover:bg-gray-900 rounded-lg"
+          >
+            {isConfirming ? "Transferring..." : "Transfer"}
+            <ArrowRightIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

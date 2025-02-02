@@ -97,7 +97,7 @@ export default function CheckAllowance() {
         <Button
           onClick={handleCheck}
           disabled={isLoading || !owner || !spender}
-          className="w-full transition-all duration-300 py-6 text-lg font-semibold"
+          className="w-full transition-all duration-300 py-6 text-lg font-semibold bg-black text-white"
         >
           {isLoading ? (
             <>

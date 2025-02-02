@@ -23,7 +23,7 @@ export default function Home() {
     checkIsOwner();
   });
   return (
-    <div className="w-screen">
+    <div className="w-screen flex flex-col items-center justify-center">
       <Navbar />
       <HeroSection />
       {isConnected ? (
