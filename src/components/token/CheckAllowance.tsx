@@ -84,7 +84,7 @@ export default function CheckAllowance() {
           <Button
             onClick={handleCheck}
             disabled={isLoading || !owner || !spender}
-            className="w-full transition-all duration-300 py-6 text-lg font-semibold bg-black text-white"
+            className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

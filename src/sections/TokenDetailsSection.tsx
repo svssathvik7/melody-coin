@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 
 export default function TokenDetails() {
   return (
-    <section className="text-white w-5/6 mx-auto mt-[10dvh] flex items-center justify-center flex-col h-fit p-2 gap-8 border-[0.025px] border-[#ffffff35] m-8">
+    <section className="text-white w-5/6 mx-auto my-[20dvh] flex items-center justify-center flex-col h-fit p-2 gap-8 border-[0.025px] border-[#ffffff35] m-8">
       <p className="text-5xl w-3/4 text-center rounded-2xl font-bold">
         MelodyCoin (MLD)
       </p>

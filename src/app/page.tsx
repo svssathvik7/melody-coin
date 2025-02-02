@@ -7,6 +7,7 @@ import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import MintTokens from "@/components/token/MintTokens";
 import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
+import AdminBanner from "@/sections/AdminBanner";
 import ConnectToWallet from "@/sections/ConnectToWallet";
 import HeroSection from "@/sections/HeroSection";
 import TokenDetails from "@/sections/TokenDetailsSection";
@@ -37,18 +38,23 @@ export default function Home() {
       ) : (
         <ConnectToWallet />
       )}
-      <TokenDetails />
       {isConnected && (
-        <div className="flex w-screen items-center justify-around gap-2">
-          <ApprovePayer />
-          <Transfer />
-        </div>
+        <>
+          <TokenDetails />
+          <div className="flex w-screen items-center justify-around gap-2">
+            <ApprovePayer />
+            <Transfer />
+          </div>
+        </>
       )}
       {isConnected && isOwner && (
-        <div className="flex w-screen items-center justify-around gap-2">
-          <MintTokens />
-          <TogglePause />
-        </div>
+        <>
+          <AdminBanner />
+          <div className="flex w-screen items-center justify-around gap-2">
+            <MintTokens />
+            <TogglePause />
+          </div>
+        </>
       )}
     </div>
   );
