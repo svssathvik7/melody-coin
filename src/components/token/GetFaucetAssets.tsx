@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import Lottie from "lottie-react";
 import {
   Card,
   CardContent,
@@ -19,6 +20,14 @@ import { faucetRevertMapping } from "@/utils/revertMapper";
 import { client } from "@/config/viemConfig";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Info } from "lucide-react";
+import FaucetAnimation from "../../assets/lotties/FaucetLottie.json";
 
 export default function GetFaucetAssets() {
   const { address } = useAccount();
@@ -58,20 +67,28 @@ export default function GetFaucetAssets() {
     });
   }
   return (
-    <Card className="h-[35dvh] w-full max-w-md bg-white text-black border border-gray-200 shadow-md">
-      <CardHeader className="pb-4">
+    <Card className="w-full max-w-md mx-auto my-8 text-black bg-white shadow-lg">
+      <CardHeader className="pb-4 flex items-center justify-center">
+        <Lottie className="w-24" animationData={FaucetAnimation} loop={true} />
         <CardTitle className="text-2xl font-bold">Melody Coin Faucet</CardTitle>
-        <CardDescription className="text-gray-600">
+        <CardDescription className="text-gray-600 flex items-center justify-center gap-2">
           Get test MLD tokens
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info />
+              </TooltipTrigger>
+              <TooltipContent className="bg-black text-white w-[30dvw] rounded-2xl">
+                Faucet reserves are limited and are meant for testing purposes.
+                Please avoid abuse! You can claim MLD tokens once every 24
+                hours. If your balance is 1.5 MLD or more, you are not eligible
+                for the faucet.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <p className="text-sm text-gray-700">
-          Faucet reserves are limited and are meant for testing purposes. Please
-          avoid abuse! You can claim MLD tokens once every 24 hours. If your
-          balance is 1.5 MLD or more, you are not eligible for the faucet.
-        </p>
-      </CardContent>
+      <CardContent className="space-y-4"></CardContent>
       <CardFooter>
         {hash && <div>Transaction hash : {hash}</div>}
         {isConfirming && (
