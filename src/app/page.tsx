@@ -7,7 +7,9 @@ import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import MintTokens from "@/components/token/MintTokens";
 import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
+import ConnectToWallet from "@/sections/ConnectToWallet";
 import HeroSection from "@/sections/HeroSection";
+import TokenDetails from "@/sections/TokenDetailsSection";
 import { getContractOwner } from "@/utils/contractFetcher";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -33,8 +35,9 @@ export default function Home() {
           <CheckAllowance />
         </div>
       ) : (
-        <p className="text-white">Please connect to your wallet!</p>
+        <ConnectToWallet />
       )}
+      <TokenDetails />
       {isConnected && (
         <div className="flex w-screen items-center justify-around gap-2">
           <ApprovePayer />
