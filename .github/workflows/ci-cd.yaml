@@ -1,0 +1,49 @@
+name: 'Melody Coin CI/CD'
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '18'
+          cache: 'yarn'
+        
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build check
+        run: yarn build
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Discord notifications
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "🚀 ${{ github.event.head_commit.message }}"
+          description: "A new push has been made to the main branch of Melody Coin Frontend"
+          color: 0x0099ff
+          username: "GitHub Actions"
+
+  deploy:
+    needs: [build, notify]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
