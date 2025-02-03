@@ -30,7 +30,7 @@ export default function AdminBanner() {
 
       <div className="flex items-center gap-2">
         <a
-          href="https://docs.melodycoin.com/governance"
+          href="https://github.com/svssathvik7/melody-coin/blob/main/README.md"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm md:text-base"
