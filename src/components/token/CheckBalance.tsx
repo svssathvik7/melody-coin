@@ -16,7 +16,7 @@ type TransferEvent = {
 }
 
 export default function CheckBalance() {
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
   const [userAddress, setUserAddress] = useState<`0x${string}` | "">(address || "")
   const [balance, setBalance] = useState<string>("0")
 
@@ -49,7 +49,7 @@ export default function CheckBalance() {
   })
 
   return (
-    <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg">
+    isConnected && <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg">
       <CardHeader className="text-center">
         <Image
           className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"

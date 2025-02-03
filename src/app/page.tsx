@@ -1,4 +1,3 @@
-"use client";
 import Navbar from "@/components/Navbar";
 import ApprovePayer from "@/components/token/ApprovePayer";
 import CheckAllowance from "@/components/token/CheckAllowance";
@@ -8,46 +7,33 @@ import MintTokens from "@/components/token/MintTokens";
 import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
 import AdminBanner from "@/sections/AdminBanner";
-import ConnectToWallet from "@/sections/ConnectToWallet";
 import HeroSection from "@/sections/HeroSection";
 import TokenDetails from "@/sections/TokenDetailsSection";
-import { getContractOwner } from "@/utils/contractFetcher";
-import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 
 export default function Home() {
-  const { isConnected, address } = useAccount();
   return (
-    <div className="w-screen flex flex-col items-center justify-center">
+    <div className="w-screen flex flex-col items-center justify-center flex-wrap">
       <Navbar />
       <HeroSection />
-      {isConnected ? (
-        <div className="flex w-screen items-center justify-around gap-2">
-          <CheckBalance />
-          <GetFaucetAssets />
-          <CheckAllowance />
+      <div className="flex w-screen items-center justify-around gap-2 flex-wrap">
+        <CheckBalance />
+        <GetFaucetAssets />
+        <CheckAllowance />
+      </div>
+      <>
+        <TokenDetails />
+        <div className="flex w-screen items-center justify-around gap-2 flex-wrap">
+          <ApprovePayer />
+          <Transfer />
         </div>
-      ) : (
-        <ConnectToWallet />
-      )}
-      {isConnected && (
-        <>
-          <TokenDetails />
-          <div className="flex w-screen items-center justify-around gap-2">
-            <ApprovePayer />
-            <Transfer />
-          </div>
-        </>
-      )}
-      {isConnected && (
-        <>
-          <AdminBanner />
-          <div className="flex w-screen items-center justify-around gap-2">
-            <MintTokens />
-            <TogglePause />
-          </div>
-        </>
-      )}
+      </>
+      <>
+        <AdminBanner />
+        <div className="flex w-screen items-center justify-around gap-2 flex-wrap">
+          <MintTokens />
+          <TogglePause />
+        </div>
+      </>
     </div>
   );
 }

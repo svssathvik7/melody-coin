@@ -19,5 +19,11 @@ button[data-testid="rk-connect-button"] {
   background-color: white !important;
   color: black !important;
   font-weight: 100 !important;
-  width: 11dvw !important;
+  width: 32dvw !important;
+}
+
+@media (min-width: 768px) {
+  button[data-testid="rk-connect-button"] {
+    width: 11dvw !important;
+  }
 }

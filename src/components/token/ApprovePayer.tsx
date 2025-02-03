@@ -30,6 +30,7 @@ import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function ApprovePayer() {
+  const { isConnected } = useAccount();
   const [spenderAddress, setSpenderAddress] = useState("");
   const [allowanceInEth, setAllowanceInEth] = useState<number | string>("");
   const { address } = useAccount();
@@ -82,80 +83,82 @@ export default function ApprovePayer() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg flex flex-col">
-      <CardHeader className="text-center pb-2">
-        <div className="flex justify-center mb-2">
-          <Lottie
-            className="w-24"
-            loop={true}
-            animationData={ApproveAnimation}
-          />
-        </div>
-        <CardTitle className="text-3xl font-bold mb-2">
-          Approve a Spender
-        </CardTitle>
-        <CardDescription className="text-gray-600">
-          Set allowance for a spender address
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4 flex-grow overflow-y-auto px-6">
-        <div className="space-y-2">
-          <Label htmlFor="spender-address" className="text-sm font-medium">
-            Spender Address
-          </Label>
-          <Input
-            id="spender-address"
-            value={spenderAddress}
-            onChange={(e) => setSpenderAddress(e.target.value)}
-            type="text"
-            placeholder="0x..."
-            className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="allowance" className="text-sm font-medium">
-            Allowance (ETH)
-          </Label>
-          <Input
-            id="allowance"
-            value={allowanceInEth}
-            onChange={(e) => setAllowanceInEth(e.target.value)}
-            type="number"
-            step={0.00001}
-            min={0.0000000000000000001}
-            placeholder="0.00"
-            className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
-          />
-        </div>
-        {hash && (
-          <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
-            <span className="font-semibold">Transaction hash:</span> {hash}
+    isConnected && (
+      <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg flex flex-col">
+        <CardHeader className="text-center pb-2">
+          <div className="flex justify-center mb-2">
+            <Lottie
+              className="w-24"
+              loop={true}
+              animationData={ApproveAnimation}
+            />
           </div>
-        )}
-      </CardContent>
-      <CardFooter className="pt-4">
-        <Button
-          onClick={approveSpender}
-          disabled={
-            isLoading || !spenderAddress || !allowanceInEth || isConfirmed
-          }
-          className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
-        >
-          {isLoading || isConfirming ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Granting...
-            </>
-          ) : isConfirmed ? (
-            <>
-              <CheckCircle2 className="mr-2 h-5 w-5" />
-              Allowance granted
-            </>
-          ) : (
-            "Grant Allowance"
+          <CardTitle className="text-3xl font-bold mb-2">
+            Approve a Spender
+          </CardTitle>
+          <CardDescription className="text-gray-600">
+            Set allowance for a spender address
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 flex-grow overflow-y-auto px-6">
+          <div className="space-y-2">
+            <Label htmlFor="spender-address" className="text-sm font-medium">
+              Spender Address
+            </Label>
+            <Input
+              id="spender-address"
+              value={spenderAddress}
+              onChange={(e) => setSpenderAddress(e.target.value)}
+              type="text"
+              placeholder="0x..."
+              className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="allowance" className="text-sm font-medium">
+              Allowance (ETH)
+            </Label>
+            <Input
+              id="allowance"
+              value={allowanceInEth}
+              onChange={(e) => setAllowanceInEth(e.target.value)}
+              type="number"
+              step={0.00001}
+              min={0.0000000000000000001}
+              placeholder="0.00"
+              className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
+            />
+          </div>
+          {hash && (
+            <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
+              <span className="font-semibold">Transaction hash:</span> {hash}
+            </div>
           )}
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter className="pt-4">
+          <Button
+            onClick={approveSpender}
+            disabled={
+              isLoading || !spenderAddress || !allowanceInEth || isConfirmed
+            }
+            className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+          >
+            {isLoading || isConfirming ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Granting...
+              </>
+            ) : isConfirmed ? (
+              <>
+                <CheckCircle2 className="mr-2 h-5 w-5" />
+                Allowance granted
+              </>
+            ) : (
+              "Grant Allowance"
+            )}
+          </Button>
+        </CardFooter>
+      </Card>
+    )
   );
 }

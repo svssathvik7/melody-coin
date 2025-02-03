@@ -30,6 +30,7 @@ import { getContractOwner } from "@/utils/contractFetcher";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function MintTokens() {
+  const { isConnected } = useAccount();
   const [mintAmount, setMintAmount] = useState(0);
   const [receiverAddress, setReceiverAddress] = useState("");
   const { address } = useAccount();
@@ -79,67 +80,69 @@ export default function MintTokens() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh]">
-      <CardHeader className="text-center">
-        <Lottie
-          loop={true}
-          animationData={MintAnimation}
-          className="w-24 mx-auto"
-        />
-        <CardTitle className="text-2xl font-bold">Mint Tokens</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="receiverAddress" className="text-sm font-medium">
-            Receiver Address
-          </Label>
-          <div className="flex space-x-2">
-            <Input
-              id="receiverAddress"
-              value={receiverAddress}
-              onChange={(e) => setReceiverAddress(e.target.value)}
-              className="flex-grow border-gray-300 focus:ring-2 focus:ring-black"
-              placeholder="Enter receiver's address"
-            />
-            <Button
-              onClick={() => setReceiverAddress(CONTRACT_ADDRESS)}
-              variant="outline"
-              className="whitespace-nowrap border-black hover:bg-black hover:text-white transition-colors"
-            >
-              To Contract
-            </Button>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="mintAmount" className="text-sm font-medium">
-            Mint Amount
-          </Label>
-          <Input
-            id="mintAmount"
-            value={mintAmount}
-            onChange={(e) => setMintAmount(Number(e.target.value))}
-            type="number"
-            min={0.000000000000000001}
-            step={0.000000000000000001}
-            className="border-gray-300 focus:ring-2 focus:ring-black"
-            placeholder="Enter amount to mint"
+    isConnected && (
+      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh]">
+        <CardHeader className="text-center">
+          <Lottie
+            loop={true}
+            animationData={MintAnimation}
+            className="w-24 mx-auto"
           />
-        </div>
-      </CardContent>
-      <CardFooter>
-        {isOwner ? (
-          <Button
-            onClick={mintTokens}
-            disabled={isConfirming}
-            className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
-          >
-            {isConfirming ? "Minting..." : "Mint Tokens"}
-            <ArrowRightIcon className="ml-2 h-4 w-4" />
-          </Button>
-        ) : (
-          <p className="text-red-500 text-xs">Require owner access</p>
-        )}
-      </CardFooter>
-    </Card>
+          <CardTitle className="text-2xl font-bold">Mint Tokens</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="receiverAddress" className="text-sm font-medium">
+              Receiver Address
+            </Label>
+            <div className="flex space-x-2">
+              <Input
+                id="receiverAddress"
+                value={receiverAddress}
+                onChange={(e) => setReceiverAddress(e.target.value)}
+                className="flex-grow border-gray-300 focus:ring-2 focus:ring-black"
+                placeholder="Enter receiver's address"
+              />
+              <Button
+                onClick={() => setReceiverAddress(CONTRACT_ADDRESS)}
+                variant="outline"
+                className="whitespace-nowrap border-black hover:bg-black hover:text-white transition-colors"
+              >
+                To Contract
+              </Button>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="mintAmount" className="text-sm font-medium">
+              Mint Amount
+            </Label>
+            <Input
+              id="mintAmount"
+              value={mintAmount}
+              onChange={(e) => setMintAmount(Number(e.target.value))}
+              type="number"
+              min={0.000000000000000001}
+              step={0.000000000000000001}
+              className="border-gray-300 focus:ring-2 focus:ring-black"
+              placeholder="Enter amount to mint"
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          {isOwner ? (
+            <Button
+              onClick={mintTokens}
+              disabled={isConfirming}
+              className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
+            >
+              {isConfirming ? "Minting..." : "Mint Tokens"}
+              <ArrowRightIcon className="ml-2 h-4 w-4" />
+            </Button>
+          ) : (
+            <p className="text-red-500 text-xs">Require owner access</p>
+          )}
+        </CardFooter>
+      </Card>
+    )
   );
 }

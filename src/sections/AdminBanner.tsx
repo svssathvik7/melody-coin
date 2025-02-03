@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { getContractOwner } from "@/utils/contractFetcher";
@@ -12,10 +13,12 @@ export default function AdminBanner() {
     fetchOwner();
   }, []);
   return (
-    <section className="text-white w-5/6 mx-auto my-[10dvh] flex flex-col items-center justify-center h-fit p-6 gap-6 border border-[#ffffff35] rounded-2xl">
-      <h2 className="text-5xl font-bold text-center">Admin Actions</h2>
+    <section className="text-white w-[95%] md:w-5/6 mx-auto my-[5dvh] md:my-[10dvh] flex flex-col items-center justify-center h-fit p-4 md:p-6 gap-4 md:gap-6 border border-[#ffffff35] rounded-2xl">
+      <h2 className="text-3xl md:text-5xl font-bold text-center">
+        Admin Actions
+      </h2>
 
-      <p className="w-4/5 text-center text-[#a3a3a3]">
+      <p className="w-full md:w-4/5 text-center text-[#a3a3a3] text-sm md:text-base px-2 md:px-0">
         Admin actions in MelodyCoin require owner-level access rights. The
         <span className="text-white font-semibold"> onlyAdmin </span>
         functions include <span className="text-white font-semibold">mint</span>
@@ -30,19 +33,19 @@ export default function AdminBanner() {
           href="https://docs.melodycoin.com/governance"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+          className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm md:text-base"
         >
           View Detailed Token Metrics and Governance
-          <ExternalLink className="w-4 h-4" />
+          <ExternalLink className="w-3 h-3 md:w-4 md:h-4" />
         </a>
       </div>
 
-      <p className="w-4/5 text-center text-[#a3a3a3]">
+      <p className="w-full md:w-4/5 text-center text-[#a3a3a3] text-sm md:text-base break-words px-2 md:px-0">
         <span className="text-white font-semibold">Contract Owner:</span>{" "}
         {owner}
       </p>
 
-      <p className="w-4/5 text-center text-[#a3a3a3]">
+      <p className="w-full md:w-4/5 text-center text-[#a3a3a3] text-sm md:text-base px-2 md:px-0">
         Token parameters, including transaction fees, burn rates, and reserve
         allocations, are transparently documented in our governance materials.
         These parameters are carefully structured to ensure long-term stability,
