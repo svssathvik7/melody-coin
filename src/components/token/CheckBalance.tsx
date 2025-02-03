@@ -7,6 +7,13 @@ import { useEffect, useState } from "react"
 import { useAccount, useWatchContractEvent } from "wagmi"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
+import Image from "next/image"
+
+type TransferEvent = {
+  from: `0x${string}`,
+  to: `0x${string}`,
+  value: bigint,
+}
 
 export default function CheckBalance() {
   const { address } = useAccount()
@@ -22,8 +29,7 @@ export default function CheckBalance() {
   useEffect(
     ()=>{
       fetchBalance();
-    }
-  ,[])
+    });
 
   useWatchContractEvent({
     address: CONTRACT_ADDRESS,
@@ -31,8 +37,11 @@ export default function CheckBalance() {
     eventName: "Transfer",
     onLogs(logs) {
       if (!address) return
-      const from = logs[0]?.args?.from
-      const to = logs[0]?.args?.to
+      const event = logs[0] as unknown as {
+        args: TransferEvent
+      };
+      const from = event.args.from;
+      const to = event.args.to;
       if (address === from || address === to) {
         fetchBalance()
       }
@@ -42,7 +51,7 @@ export default function CheckBalance() {
   return (
     <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg">
       <CardHeader className="text-center">
-        <img
+        <Image
           className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"
           alt="melody-coin-logo"
           src="./assets/melody-coin-logo.png"

@@ -12,8 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import toaster from "@/utils/toaster";
-import { useEffect, useState } from "react";
-import { Loader2, CheckCircle, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -24,8 +24,10 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { BaseError, parseEther } from "viem";
 import { client } from "@/config/viemConfig";
 import { approveRevertMapping } from "@/utils/revertMapper";
-import Lottie from "lottie-react";
 import ApproveAnimation from "@/assets/lotties/ApproveLottie.json";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function ApprovePayer() {
   const [spenderAddress, setSpenderAddress] = useState("");

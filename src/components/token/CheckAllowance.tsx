@@ -13,8 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getAllowance } from "@/utils/contractFetcher";
 import { Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
-import Lottie from "lottie-react";
 import AllowanceAnimation from "@/assets/lotties/AllowanceLottie.json";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function CheckAllowance() {
   const [spender, setSpender] = useState("");

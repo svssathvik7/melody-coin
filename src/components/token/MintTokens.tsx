@@ -23,8 +23,10 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { client } from "@/config/viemConfig";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import MintAnimation from "@/assets/lotties/MintLottie.json";
-import Lottie from "lottie-react";
 import { ArrowRightIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function MintTokens() {
   const [mintAmount, setMintAmount] = useState(0);

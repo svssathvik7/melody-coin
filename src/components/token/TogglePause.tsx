@@ -22,8 +22,10 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { client } from "@/config/viemConfig";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import ToggleAnimation from "@/assets/lotties/ToggleLottie.json";
-import Lottie from "lottie-react";
 import { PauseIcon, PlayIcon, AlertTriangleIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function TogglePause() {
   const { address } = useAccount();
@@ -41,7 +43,7 @@ export default function TogglePause() {
 
   useEffect(() => {
     fetchPauseState();
-  }, [fetchPauseState]); // Added fetchPauseState to dependencies
+  });
 
   useWatchContractEvent({
     address: CONTRACT_ADDRESS,

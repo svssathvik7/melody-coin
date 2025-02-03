@@ -1,7 +1,9 @@
 import { AvatarComponent } from "@rainbow-me/rainbowkit";
-const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
+import Image from "next/image";
+const CustomAvatar: AvatarComponent = ({ ensImage, size }) => {
   return (
-    <img
+    <Image
+      alt="Melody Coin Logo"
       src={ensImage || "./assets/melody-coin-logo.png"}
       width={size}
       height={size}

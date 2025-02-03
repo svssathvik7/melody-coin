@@ -1,6 +1,6 @@
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import { createPublicClient, getContract, http } from "viem";
-import { anvil, sepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { cookieStorage, createConfig, createStorage } from "wagmi";
 import { metaMask, walletConnect } from "wagmi/connectors";
 

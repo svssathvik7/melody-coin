@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Lottie from "lottie-react";
 import {
   Card,
   CardContent,
@@ -29,6 +28,9 @@ import {
 } from "../ui/tooltip";
 import { AlertCircle, Info, CheckCircle2, Loader2 } from "lucide-react";
 import FaucetAnimation from "../../assets/lotties/FaucetLottie.json";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function GetFaucetAssets() {
   const { address } = useAccount();
