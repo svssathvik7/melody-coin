@@ -73,7 +73,7 @@ export default function GetFaucetAssets() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 text-black bg-white shadow-lg flex flex-col">
+      <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 text-black bg-white shadow-lg flex flex-col overflow-y-scroll">
         <CardHeader className="pb-2 text-center">
           <div className="flex justify-center mb-2">
             <Lottie

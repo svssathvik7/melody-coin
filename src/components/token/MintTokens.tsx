@@ -23,9 +23,15 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { client } from "@/config/viemConfig";
 import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import MintAnimation from "@/assets/lotties/MintLottie.json";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, Info } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getContractOwner } from "@/utils/contractFetcher";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
@@ -88,7 +94,22 @@ export default function MintTokens() {
             animationData={MintAnimation}
             className="w-24 mx-auto"
           />
-          <CardTitle className="text-2xl font-bold">Mint Tokens</CardTitle>
+          <CardTitle className="flex items-center justify-center gap-2">
+            <p className="text-2xl font-bold">Mint Tokens</p>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4" />
+                </TooltipTrigger>
+                <TooltipContent className="bg-black text-white w-[30dvw] rounded-2xl p-3">
+                  <p>
+                    Not all the minted value is sent to the receipent! A share
+                    of the minted value goes to faucet reserves.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -136,7 +157,7 @@ export default function MintTokens() {
               className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
             >
               {isConfirming ? "Minting..." : "Mint Tokens"}
-              <ArrowRightIcon className="ml-2 h-4 w-4" />
+              {!isConfirming && <ArrowRightIcon className="ml-2 h-4 w-4" />}
             </Button>
           ) : (
             <p className="text-red-500 text-xs">Require owner access</p>

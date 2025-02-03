@@ -26,10 +26,18 @@ export default function CheckBalance() {
     setBalance(fetchedBalance)
   }
 
-  useEffect(
-    ()=>{
-      fetchBalance();
-    });
+  useEffect(() => {
+    if (address) {
+      setUserAddress(address)
+    }
+  }, [address])
+
+  // Fetch balance when userAddress changes
+  useEffect(() => {
+    if (userAddress) {
+      fetchBalance()
+    }
+  }, [userAddress])
 
   useWatchContractEvent({
     address: CONTRACT_ADDRESS,
@@ -49,7 +57,7 @@ export default function CheckBalance() {
   })
 
   return (
-    isConnected && <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg">
+    isConnected && <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg overflow-y-scroll">
       <CardHeader className="text-center">
         <Image
           className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"

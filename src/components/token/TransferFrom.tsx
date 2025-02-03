@@ -121,7 +121,12 @@ export default function TransferFrom() {
             />
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-col items-center justify-center gap-2 flex-wrap">
+          {hash && (
+            <div className="text-sm bg-gray-100 p-3 rounded-md mb-4 break-all">
+              <span className="font-semibold">Transaction hash:</span> {hash}
+            </div>
+          )}
           <Button
             type="submit"
             disabled={isConfirming}

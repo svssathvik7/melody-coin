@@ -101,7 +101,7 @@ export default function SelfTransfer() {
             />
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-col items-center justify-center flex-wrap gap-2">
           {hash && (
             <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
               <span className="font-semibold">Transaction hash:</span> {hash}

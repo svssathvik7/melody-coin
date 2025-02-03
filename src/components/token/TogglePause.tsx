@@ -100,9 +100,9 @@ export default function TogglePause() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh] border border-gray-200 overflow-hidden">
+      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh] border border-gray-200 overflow-hidden overflow-y-scroll">
         <CardHeader className="text-center relative pb-0">
-          <div className="relative w-24 h-24 mx-auto mb-2">
+          <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-2">
             <Lottie
               loop={true}
               animationData={ToggleAnimation}
@@ -110,16 +110,18 @@ export default function TogglePause() {
             />
             <div className="absolute inset-0 bg-gray-200 rounded-full opacity-30 animate-pulse"></div>
           </div>
-          <CardTitle className="text-3xl font-bold text-black">
+          <CardTitle className="text-2xl md:text-3xl font-bold text-black">
             Contract Pause State
           </CardTitle>
         </CardHeader>
-        <CardDescription className="text-center text-gray-600 px-4 mt-2">
-          <div className="flex items-center justify-center">
-            <AlertTriangleIcon className="inline w-4 h-4 mr-1 text-black" />
-            <p>Owner-only action to halt all contract operations</p>
+        <CardDescription className="text-center text-gray-600 px-4 mt-2 space-y-2">
+          <div className="flex items-center justify-center gap-1 flex-wrap">
+            <AlertTriangleIcon className="inline w-4 h-4 text-black flex-shrink-0" />
+            <p className="text-sm md:text-base inline">
+              Owner-only action to halt all contract operations
+            </p>
           </div>
-          <p>
+          <p className="text-sm md:text-base">
             When paused, all token transfers and transactions will be suspended.
             This is a security feature to protect users in case of emergencies.
           </p>
@@ -137,8 +139,13 @@ export default function TogglePause() {
               {isPaused ? "PAUSED" : "ACTIVE"}
             </span>
           </div>
+          {hash && (
+            <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
+              <span className="font-semibold">Transaction hash:</span> {hash}
+            </div>
+          )}
         </CardContent>
-        <CardFooter>
+        <CardFooter className="mt-auto">
           {isOwner ? (
             <Button
               onClick={togglePauseState}
@@ -190,7 +197,9 @@ export default function TogglePause() {
               )}
             </Button>
           ) : (
-            <p className="text-red-500 text-xs">Require owner access</p>
+            <p className="text-red-500 text-sm text-center w-full">
+              Require owner access
+            </p>
           )}
         </CardFooter>
       </Card>

@@ -10,13 +10,7 @@ export default function Navbar() {
         </p>
       </div>
       <div className="w-auto md:w-1/2 flex items-center justify-end px-1 md:px-2">
-        <ConnectButton
-          chainStatus="icon"
-          accountStatus={{
-            smallScreen: "avatar",
-            largeScreen: "full",
-          }}
-        />
+        <ConnectButton />
       </div>
     </div>
   );
