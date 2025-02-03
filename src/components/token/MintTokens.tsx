@@ -46,6 +46,13 @@ export default function MintTokens() {
     hash,
   });
   const [isOwner, setIsOwner] = useState(false);
+  useEffect(() => {
+    const fetchContractOwner = async () => {
+      const owner = await getContractOwner();
+      setIsOwner(owner == address);
+    };
+    fetchContractOwner();
+  }, [address]);
 
   useEffect(() => {
     const fetchContractOwner = async () => {
