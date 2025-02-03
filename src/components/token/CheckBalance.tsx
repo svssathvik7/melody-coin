@@ -54,7 +54,9 @@ export default function CheckBalance() {
         <Image
           className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"
           alt="melody-coin-logo"
-          src="./assets/melody-coin-logo.png"
+          src="/assets/melody-coin-logo.png"
+          width={24}
+          height={24}
         />
         <CardTitle className="text-2xl font-bold">Check MLD Balance</CardTitle>
       </CardHeader>

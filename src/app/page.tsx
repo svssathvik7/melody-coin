@@ -17,14 +17,6 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
   const { isConnected, address } = useAccount();
-  const [isOwner, setIsOwner] = useState(false);
-  useEffect(() => {
-    const checkIsOwner = async () => {
-      const contractOwner = await getContractOwner();
-      setIsOwner(address?.toLowerCase() === contractOwner?.toLowerCase());
-    };
-    checkIsOwner();
-  });
   return (
     <div className="w-screen flex flex-col items-center justify-center">
       <Navbar />
@@ -47,7 +39,7 @@ export default function Home() {
           </div>
         </>
       )}
-      {isConnected && isOwner && (
+      {isConnected && (
         <>
           <AdminBanner />
           <div className="flex w-screen items-center justify-around gap-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -25,6 +25,7 @@ import { CONTRACT_ADDRESS, MELODY_COIN_ABI } from "@/constants/contractDetails";
 import MintAnimation from "@/assets/lotties/MintLottie.json";
 import { ArrowRightIcon } from "lucide-react";
 import dynamic from "next/dynamic";
+import { getContractOwner } from "@/utils/contractFetcher";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
@@ -37,7 +38,15 @@ export default function MintTokens() {
   const { isLoading: isConfirming } = useWaitForTransactionReceipt({
     hash,
   });
+  const [isOwner, setIsOwner] = useState(false);
 
+  useEffect(() => {
+    const fetchContractOwner = async () => {
+      const owner = await getContractOwner();
+      setIsOwner(owner == address);
+    };
+    fetchContractOwner();
+  }, [address]);
   const mintTokens = async () => {
     if (mintAmount == 0) {
       return toaster("error", "Mint value must be non zero");
@@ -118,14 +127,18 @@ export default function MintTokens() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={mintTokens}
-          disabled={isConfirming}
-          className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
-        >
-          {isConfirming ? "Minting..." : "Mint Tokens"}
-          <ArrowRightIcon className="ml-2 h-4 w-4" />
-        </Button>
+        {isOwner ? (
+          <Button
+            onClick={mintTokens}
+            disabled={isConfirming}
+            className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
+          >
+            {isConfirming ? "Minting..." : "Mint Tokens"}
+            <ArrowRightIcon className="ml-2 h-4 w-4" />
+          </Button>
+        ) : (
+          <p className="text-red-500 text-xs">Require owner access</p>
+        )}
       </CardFooter>
     </Card>
   );
