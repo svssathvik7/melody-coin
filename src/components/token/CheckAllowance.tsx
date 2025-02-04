@@ -47,7 +47,7 @@ export default function CheckAllowance() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 text-black bg-white shadow-lg flex flex-col overflow-y-scroll">
+      <Card className="w-full max-w-md h-fit mx-auto my-8 text-black bg-white shadow-lg flex flex-col">
         <CardHeader className="text-center pb-2">
           <div className="flex justify-center mb-2">
             <Lottie

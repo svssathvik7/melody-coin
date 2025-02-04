@@ -84,7 +84,7 @@ export default function ApprovePayer() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto h-[55dvh] my-8 text-black bg-white shadow-lg flex flex-col">
+      <Card className="w-full max-w-md mx-auto h-[62dvh] my-8 text-black bg-white shadow-lg flex flex-col">
         <CardHeader className="text-center pb-2">
           <div className="flex justify-center mb-2">
             <Lottie

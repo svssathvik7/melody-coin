@@ -41,6 +41,7 @@ export default function TogglePause() {
   useEffect(() => {
     const fetchContractOwner = async () => {
       const owner = await getContractOwner();
+      console.log(owner, address);
       setIsOwner(owner == address);
     };
     fetchContractOwner();
@@ -100,7 +101,7 @@ export default function TogglePause() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh] border border-gray-200 overflow-hidden overflow-y-scroll">
+      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-fit border border-gray-200 overflow-hidden overflow-y-scroll">
         <CardHeader className="text-center relative pb-0">
           <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-2">
             <Lottie
@@ -197,9 +198,7 @@ export default function TogglePause() {
               )}
             </Button>
           ) : (
-            <p className="text-red-500 text-sm text-center w-full">
-              Require owner access
-            </p>
+            <p className="text-red-500 text-xs">Require owner access</p>
           )}
         </CardFooter>
       </Card>
