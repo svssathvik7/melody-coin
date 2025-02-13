@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers/walletProvider";
 import { Toaster } from "react-hot-toast";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export const metadata: Metadata = {
   title: "Melody Coin Frontend",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-black`}>
+        <GoogleAnalytics />
         <Providers>{children}</Providers>
         <Toaster
           toastOptions={{
