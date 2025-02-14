@@ -17,6 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-black`}>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MK6LR5G3"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <GoogleAnalytics />
         <Providers>{children}</Providers>
         <Toaster
