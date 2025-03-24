@@ -94,7 +94,7 @@ export default function MintTokens() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-[55dvh]">
+      <Card className="w-full max-w-md mx-auto bg-white text-black shadow-lg h-fit">
         <CardHeader className="text-center">
           <Lottie
             loop={true}
