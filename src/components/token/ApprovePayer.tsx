@@ -84,16 +84,17 @@ export default function ApprovePayer() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto h-[62dvh] my-8 text-black bg-white shadow-lg flex flex-col">
-        <CardHeader className="text-center pb-2">
-          <div className="flex justify-center mb-2">
+      <Card className="w-full max-w-md mx-auto h-[62dvh] my-8 backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
+        <CardHeader className="text-center pb-2 bg-gradient-to-b from-white to-gray-50/50">
+          <div className="relative w-24 h-24 mx-auto mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>
             <Lottie
               className="w-24"
               loop={true}
               animationData={ApproveAnimation}
             />
           </div>
-          <CardTitle className="text-3xl font-bold mb-2">
+          <CardTitle className="text-3xl font-bold mb-2 bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
             Approve a Spender
           </CardTitle>
           <CardDescription className="text-gray-600">
@@ -102,7 +103,10 @@ export default function ApprovePayer() {
         </CardHeader>
         <CardContent className="space-y-4 flex-grow overflow-y-auto px-6">
           <div className="space-y-2">
-            <Label htmlFor="spender-address" className="text-sm font-medium">
+            <Label
+              htmlFor="spender-address"
+              className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent"
+            >
               Spender Address
             </Label>
             <Input
@@ -111,11 +115,14 @@ export default function ApprovePayer() {
               onChange={(e) => setSpenderAddress(e.target.value)}
               type="text"
               placeholder="0x..."
-              className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="allowance" className="text-sm font-medium">
+            <Label
+              htmlFor="allowance"
+              className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent"
+            >
               Allowance (ETH)
             </Label>
             <Input
@@ -126,22 +133,25 @@ export default function ApprovePayer() {
               step={0.00001}
               min={0.0000000000000000001}
               placeholder="0.00"
-              className="border-gray-300 focus:border-black focus:ring-black transition-all duration-300"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
             />
           </div>
           {hash && (
-            <div className="text-sm bg-gray-100 p-3 rounded-md break-all">
-              <span className="font-semibold">Transaction hash:</span> {hash}
+            <div className="text-sm backdrop-blur-sm bg-black/5 p-4 rounded-xl break-all border border-gray-200/50">
+              <span className="font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+                Transaction hash:
+              </span>
+              <span className="ml-2 text-gray-600">{hash}</span>
             </div>
           )}
         </CardContent>
-        <CardFooter className="pt-4">
+        <CardFooter className="pt-4 bg-gradient-to-b from-transparent to-gray-50/30">
           <Button
             onClick={approveSpender}
             disabled={
               isLoading || !spenderAddress || !allowanceInEth || isConfirmed
             }
-            className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl py-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-cyan-500/20"
           >
             {isLoading || isConfirming ? (
               <>

@@ -73,16 +73,17 @@ export default function GetFaucetAssets() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 text-black bg-white shadow-lg flex flex-col overflow-y-scroll">
-        <CardHeader className="pb-2 text-center">
-          <div className="flex justify-center mb-2">
+      <Card className="w-full max-w-md h-[55dvh] mx-auto my-8 backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
+        <CardHeader className="pb-2 text-center bg-gradient-to-b from-white to-gray-50/50">
+          <div className="relative w-24 h-24 mx-auto mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>
             <Lottie
               className="w-24"
               animationData={FaucetAnimation}
               loop={true}
             />
           </div>
-          <CardTitle className="text-3xl font-bold mb-2">
+          <CardTitle className="text-3xl font-bold mb-2 bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
             Melody Coin Faucet
           </CardTitle>
           <CardDescription className="text-gray-600 flex items-center justify-center gap-2">
@@ -90,9 +91,9 @@ export default function GetFaucetAssets() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <Info className="w-4 h-4" />
+                  <Info className="w-4 h-4 text-cyan-500 animate-pulse" />
                 </TooltipTrigger>
-                <TooltipContent className="bg-black text-white w-[30dvw] rounded-2xl p-3">
+                <TooltipContent className="backdrop-blur-md bg-black/90 text-white w-[30dvw] rounded-xl p-4 border border-white/10 shadow-lg">
                   <p>
                     You can claim MLD tokens once every 24 hours. If your
                     balance is 1.5 MLD or more, you are not eligible for the
@@ -109,12 +110,15 @@ export default function GetFaucetAssets() {
             Please avoid abuse!
           </p>
           {hash && (
-            <div className="text-sm bg-gray-100 p-3 rounded-md mb-4 break-all">
-              <span className="font-semibold">Transaction hash:</span> {hash}
+            <div className="text-sm backdrop-blur-sm bg-black/5 p-4 rounded-xl break-all border border-gray-200/50">
+              <span className="font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+                Transaction hash:
+              </span>
+              <span className="ml-2 text-gray-600">{hash}</span>
             </div>
           )}
           {isConfirming && (
-            <div className="text-sm text-blue-600 flex items-center justify-center gap-2 mb-4">
+            <div className="text-sm text-cyan-600 flex items-center justify-center gap-2 mb-4">
               <Loader2 className="w-4 h-4 animate-spin" />
               Waiting for confirmation...
             </div>
@@ -126,20 +130,20 @@ export default function GetFaucetAssets() {
             </div>
           )}
         </CardContent>
-        <CardFooter>
+        <CardFooter className="p-6 bg-gradient-to-b from-transparent to-gray-50/30">
           <Button
             onClick={fetchAssetsFromFaucet}
-            className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl py-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-cyan-500/20"
             disabled={isConfirming}
           >
             {isConfirming ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
                 Getting 0.1 MLD...
               </>
             ) : (
               <>
-                <AlertCircle className="w-4 h-4" />
+                <AlertCircle className="w-4 h-4 mr-2" />
                 Get 0.1 MLD
               </>
             )}
