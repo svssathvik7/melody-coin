@@ -36,7 +36,7 @@ export default function CheckBalance() {
   // Fetch balance when userAddress changes
   useEffect(() => {
     if (userAddress) {
-      fetchBalance()
+      fetchBalance();
     }
   }, [userAddress])
 

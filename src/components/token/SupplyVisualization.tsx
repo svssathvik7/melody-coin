@@ -4,7 +4,7 @@ import contract from "@/config/viemConfig";
 import { formatUnits } from "viem";
 
 const formatLargeNumber = (num_str: string): string => {
-  let num = Number(num_str);
+  const num = Number(num_str);
   if (num > 10_000_000) {
     const exp = Math.floor(Math.log10(num));
     return "10" + "^" + exp;
