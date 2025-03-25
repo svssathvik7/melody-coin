@@ -1,5 +1,6 @@
 import React from "react";
 import { ExternalLink } from "lucide-react";
+import SupplyVisualization from "@/components/token/SupplyVisualization";
 
 export default function TokenDetails() {
   return (

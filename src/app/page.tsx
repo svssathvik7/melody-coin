@@ -4,6 +4,7 @@ import CheckAllowance from "@/components/token/CheckAllowance";
 import CheckBalance from "@/components/token/CheckBalance";
 import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import MintTokens from "@/components/token/MintTokens";
+import SupplyVisualization from "@/components/token/SupplyVisualization";
 import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
 import AdminBanner from "@/sections/AdminBanner";
@@ -12,7 +13,7 @@ import TokenDetails from "@/sections/TokenDetailsSection";
 
 export default function Home() {
   return (
-    <div className="w-screen flex flex-col items-center justify-center flex-wrap">
+    <div className="w-screen flex flex-col items-center justify-center flex-wrap gap-2">
       <Navbar />
       <HeroSection />
       <div className="flex w-screen items-center justify-around gap-2 flex-wrap">
@@ -34,6 +35,7 @@ export default function Home() {
           <TogglePause />
         </div>
       </>
+      <SupplyVisualization />
     </div>
   );
 }
