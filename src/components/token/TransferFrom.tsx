@@ -66,13 +66,13 @@ export default function TransferFrom() {
   }
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="w-full max-w-md mx-auto backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
       <form onSubmit={handleTransferFrom}>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 p-6">
           <div className="space-y-2">
             <Label
               htmlFor="spenderAddress"
-              className="text-sm font-medium text-gray-800"
+              className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent"
             >
               Spender Address
             </Label>
@@ -82,13 +82,13 @@ export default function TransferFrom() {
               onChange={(e) => setSpenderAddress(e.target.value)}
               required
               placeholder="Enter spender's address"
-              className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
             />
           </div>
           <div className="space-y-2">
             <Label
               htmlFor="receiverAddress"
-              className="text-sm font-medium text-gray-800"
+              className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent"
             >
               Receiver Address
             </Label>
@@ -98,13 +98,13 @@ export default function TransferFrom() {
               onChange={(e) => setReceiverAddress(e.target.value)}
               required
               placeholder="Enter receiver's address"
-              className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
             />
           </div>
           <div className="space-y-2">
             <Label
               htmlFor="transferFromAmount"
-              className="text-sm font-medium text-gray-800"
+              className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent"
             >
               Amount
             </Label>
@@ -115,25 +115,56 @@ export default function TransferFrom() {
               onChange={(e) => setTransferFromAmount(Number(e.target.value))}
               required
               placeholder="Enter amount to transfer"
-              className="border-gray-300 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-black"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
               min={0.000000000000000001}
               step={0.000000000000000001}
             />
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col items-center justify-center gap-2 flex-wrap">
+        <CardFooter className="flex flex-col items-center justify-center gap-4 p-6 bg-gray-50/30">
           {hash && (
-            <div className="text-sm bg-gray-100 p-3 rounded-md mb-4 break-all">
-              <span className="font-semibold">Transaction hash:</span> {hash}
+            <div className="w-full text-sm bg-black/5 backdrop-blur-sm p-4 rounded-xl break-all border border-gray-200/50">
+              <span className="font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+                Transaction hash:
+              </span>
+              <span className="ml-2 text-gray-600">{hash}</span>
             </div>
           )}
           <Button
             type="submit"
             disabled={isConfirming}
-            className="w-full transition-all duration-200 hover:scale-105 bg-black text-white hover:bg-gray-900 rounded-lg"
+            className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl py-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            {isConfirming ? "Transferring..." : "Transfer"}
-            <ArrowRightIcon className="ml-2 h-4 w-4" />
+            {isConfirming ? (
+              <span className="flex items-center justify-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Transferring...
+              </span>
+            ) : (
+              <span className="flex items-center justify-center">
+                Transfer
+                <ArrowRightIcon className="ml-2 h-5 w-5 animate-pulse" />
+              </span>
+            )}
           </Button>
         </CardFooter>
       </form>
