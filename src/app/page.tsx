@@ -4,11 +4,11 @@ import CheckAllowance from "@/components/token/CheckAllowance";
 import CheckBalance from "@/components/token/CheckBalance";
 import GetFaucetAssets from "@/components/token/GetFaucetAssets";
 import MintTokens from "@/components/token/MintTokens";
-import SupplyVisualization from "@/components/token/SupplyVisualization";
 import TogglePause from "@/components/token/TogglePause";
 import Transfer from "@/components/token/Transfer";
 import AdminBanner from "@/sections/AdminBanner";
 import HeroSection from "@/sections/HeroSection";
+import SupplyVisualization from "@/sections/SupplyVisualization";
 import TokenDetails from "@/sections/TokenDetailsSection";
 
 export default function Home() {

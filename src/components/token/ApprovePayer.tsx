@@ -84,7 +84,7 @@ export default function ApprovePayer() {
 
   return (
     isConnected && (
-      <Card className="w-full max-w-md mx-auto h-[62dvh] my-8 backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
+      <Card className="w-full max-w-md mx-auto h-[65dvh] my-8 backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
         <CardHeader className="text-center pb-2 bg-gradient-to-b from-white to-gray-50/50">
           <div className="relative w-24 h-24 mx-auto mb-4">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>

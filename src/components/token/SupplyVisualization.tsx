@@ -58,26 +58,26 @@ export default function SupplyVisualization() {
   }, []);
 
   return (
-    <div className="text-gray-800 w-[95%] md:w-5/6 mx-auto my-[10dvh] md:my-[20dvh] flex flex-col md:flex-row items-center justify-center h-fit p-4 md:p-6 gap-8 border border-gray-200/50 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl hover:shadow-cyan-500/20 transition-all duration-300">
+    <div className="text-gray-800 w-[95%] md:w-5/6 mx-auto my-[10dvh] md:my-[20dvh] flex flex-col md:flex-row items-center justify-center h-fit p-4 md:p-6 gap-8 border border-gray-200 rounded-2xl bg-white shadow-sm">
       <div className="w-full md:w-1/2">
-        <h3 className="text-xl font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent mb-4">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">
           Melody Coin Tokenomics
         </h3>
         {/* Supply Progress */}
         <div className="w-full">
           <div className="relative pt-1">
             <div className="flex mb-2 items-center justify-between">
-              <span className="text-xs font-semibold py-1 px-2 uppercase rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-600">
+              <span className="text-xs font-semibold py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
                 Supply Progress
               </span>
-              <span className="text-xs font-semibold text-cyan-600">
+              <span className="text-xs font-semibold text-blue-600">
                 {percentage.toFixed(2)}%
               </span>
             </div>
-            <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gradient-to-r from-cyan-500/20 to-purple-500/20">
+            <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
               <div
                 style={{ width: `${percentage}%` }}
-                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500"
+                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"
               />
             </div>
           </div>
@@ -88,48 +88,48 @@ export default function SupplyVisualization() {
       <div className="w-full md:w-1/2 flex flex-col gap-4">
         {/* Supply Info */}
         <div className="flex flex-col sm:flex-row justify-between w-full gap-4 text-center">
-          <div className="flex-1 p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-gray-200/50 hover:shadow-cyan-500/20 transition-all duration-300">
+          <div className="flex-1 p-4 rounded-lg bg-gray-50">
             <p className="text-sm text-gray-600 mb-1">Current Supply</p>
-            <p className="text-lg font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+            <p className="text-lg font-semibold text-gray-800">
               {formatLargeNumber(totalSupply)} MLD
             </p>
           </div>
-          <div className="flex-1 p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-gray-200/50 hover:shadow-cyan-500/20 transition-all duration-300">
+          <div className="flex-1 p-4 rounded-lg bg-gray-50">
             <p className="text-sm text-gray-600 mb-1">Maximum Cap</p>
-            <p className="text-lg font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+            <p className="text-lg font-semibold text-gray-800">
               {formatLargeNumber(maxCap)} MLD
             </p>
           </div>
         </div>
 
         {/* Burn Rate */}
-        <div className="p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-gray-200/50 hover:shadow-cyan-500/20 transition-all duration-300 text-center">
+        <div className="p-4 rounded-lg bg-gray-50 text-center">
           <p className="text-sm text-gray-600 mb-1">Burn Rate</p>
-          <p className="text-lg font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+          <p className="text-lg font-semibold text-gray-800">
             {burnPercentage.toFixed(2)}%
           </p>
-          <div className="mt-2 h-1 w-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full overflow-hidden">
+          <div className="mt-2 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-500"
+              className="h-full bg-red-500 rounded-full transition-all duration-500"
               style={{ width: `${burnPercentage}%` }}
             />
           </div>
         </div>
 
         {/* Minting Distribution */}
-        <div className="p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-gray-200/50 hover:shadow-cyan-500/20 transition-all duration-300 text-center">
+        <div className="p-4 rounded-lg bg-gray-50 text-center">
           <p className="text-sm text-gray-600 mb-1">Minting Distribution</p>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between mb-1">
                 <p className="text-sm text-gray-600">Minting Address</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+                <p className="text-sm font-semibold text-gray-800">
                   {minterPercentage}%
                 </p>
               </div>
-              <div className="h-1 w-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-500"
+                  className="h-full bg-blue-500 rounded-full transition-all duration-500"
                   style={{ width: `${minterPercentage}%` }}
                 />
               </div>
@@ -137,13 +137,13 @@ export default function SupplyVisualization() {
             <div>
               <div className="flex justify-between mb-1">
                 <p className="text-sm text-gray-600">Faucet</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+                <p className="text-sm font-semibold text-gray-800">
                   {faucetPercentage}%
                 </p>
               </div>
-              <div className="h-1 w-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-500"
+                  className="h-full bg-green-500 rounded-full transition-all duration-500"
                   style={{ width: `${faucetPercentage}%` }}
                 />
               </div>
