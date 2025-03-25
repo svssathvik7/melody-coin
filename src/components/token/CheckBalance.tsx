@@ -8,6 +8,7 @@ import { useAccount, useWatchContractEvent } from "wagmi"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import Image from "next/image"
+import { Label } from "../ui/label"
 
 type TransferEvent = {
   from: `0x${string}`,
@@ -57,37 +58,45 @@ export default function CheckBalance() {
   })
 
   return (
-    isConnected && <Card className="w-full max-w-md mx-auto h-fit my-8 text-black bg-white shadow-lg overflow-y-scroll">
-      <CardHeader className="text-center">
-        <Image
-          className="w-24 h-24 mx-auto mb-4 rounded-full shadow-md"
-          alt="melody-coin-logo"
-          src="/assets/melody-coin-logo.png"
-          width={24}
-          height={24}
-        />
-        <CardTitle className="text-2xl font-bold">Check MLD Balance</CardTitle>
+    isConnected && <Card className="w-full max-w-md mx-auto h-fit my-8 backdrop-blur-md bg-white/90 shadow-xl border border-gray-200/50 rounded-2xl overflow-hidden hover:shadow-cyan-500/20 transition-all duration-300">
+      <CardHeader className="text-center pb-2 bg-gradient-to-b from-white to-gray-50/50">
+        <div className="relative w-24 h-24 mx-auto mb-4">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>
+          <Image
+            className="w-24 h-24 relative z-10 rounded-full"
+            alt="melody-coin-logo"
+            src="/assets/melody-coin-logo.png"
+            width={24}
+            height={24}
+          />
+        </div>
+        <CardTitle className="text-3xl font-bold mb-2 bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+          Check MLD Balance
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 p-6">
         <div className="space-y-2">
-          <label htmlFor="address" className="block text-sm font-medium">
+          <Label htmlFor="address" className="text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
             Wallet Address
-          </label>
+          </Label>
           <Input
             id="address"
             type="text"
-            className="w-full border-gray-300 focus:border-black focus:ring-black"
+            className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
             value={userAddress}
             onChange={(e) => setUserAddress(e.target.value as `0x${string}`)}
             placeholder="Enter wallet address"
           />
         </div>
-        <Button onClick={fetchBalance} className="w-full bg-black text-white hover:bg-gray-800 transition-colors">
+        <Button 
+          onClick={fetchBalance} 
+          className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl py-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-cyan-500/20"
+        >
           Get Balance
         </Button>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Current Balance</p>
-          <p className="text-3xl font-bold">{balance} MLD</p>
+        <div className="text-center backdrop-blur-sm bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl shadow-inner border border-gray-100">
+          <p className="text-sm text-gray-600 mb-2">Current Balance</p>
+          <p className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">{balance} MLD</p>
         </div>
       </CardContent>
     </Card>
