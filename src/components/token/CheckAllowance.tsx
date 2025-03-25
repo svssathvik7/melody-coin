@@ -75,7 +75,7 @@ export default function CheckAllowance() {
               onChange={(e) => setOwner(e.target.value)}
               type="text"
               placeholder="0x..."
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="space-y-2">
@@ -91,7 +91,7 @@ export default function CheckAllowance() {
               onChange={(e) => setSpender(e.target.value)}
               type="text"
               placeholder="0x..."
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="pt-4">
@@ -121,9 +121,11 @@ export default function CheckAllowance() {
               {error}
             </div>
           )}
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Allowance</p>
-            <p className="text-3xl font-bold">{allowance} MLD</p>
+          <div className="text-center backdrop-blur-sm bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl shadow-inner border border-gray-100">
+            <p className="text-sm text-gray-600 mb-2">Allowance</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
+              {allowance} MLD
+            </p>
           </div>
         </CardContent>
         <CardFooter></CardFooter>

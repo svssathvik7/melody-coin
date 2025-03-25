@@ -136,7 +136,7 @@ export default function MintTokens() {
                 id="receiverAddress"
                 value={receiverAddress}
                 onChange={(e) => setReceiverAddress(e.target.value)}
-                className="flex-grow border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+                className="flex-grow border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
                 placeholder="Enter receiver's address"
               />
               <Button
@@ -162,7 +162,7 @@ export default function MintTokens() {
               type="number"
               min={0.000000000000000001}
               step={0.000000000000000001}
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
               placeholder="Enter amount to mint"
             />
           </div>

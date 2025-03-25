@@ -115,7 +115,7 @@ export default function ApprovePayer() {
               onChange={(e) => setSpenderAddress(e.target.value)}
               type="text"
               placeholder="0x..."
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="space-y-2">
@@ -133,7 +133,7 @@ export default function ApprovePayer() {
               step={0.00001}
               min={0.0000000000000000001}
               placeholder="0.00"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           {hash && (

@@ -82,7 +82,7 @@ export default function TransferFrom() {
               onChange={(e) => setSpenderAddress(e.target.value)}
               required
               placeholder="Enter spender's address"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="space-y-2">
@@ -98,7 +98,7 @@ export default function TransferFrom() {
               onChange={(e) => setReceiverAddress(e.target.value)}
               required
               placeholder="Enter receiver's address"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="space-y-2">
@@ -115,7 +115,7 @@ export default function TransferFrom() {
               onChange={(e) => setTransferFromAmount(Number(e.target.value))}
               required
               placeholder="Enter amount to transfer"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
               min={0.000000000000000001}
               step={0.000000000000000001}
             />

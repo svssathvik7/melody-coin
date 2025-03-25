@@ -82,7 +82,7 @@ export default function CheckBalance() {
           <Input
             id="address"
             type="text"
-            className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+            className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             value={userAddress}
             onChange={(e) => setUserAddress(e.target.value as `0x${string}`)}
             placeholder="Enter wallet address"

@@ -78,7 +78,7 @@ export default function SelfTransfer() {
               onChange={(e) => setToAddress(e.target.value)}
               required
               placeholder="Enter recipient's address"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
             />
           </div>
           <div className="space-y-2">
@@ -95,7 +95,7 @@ export default function SelfTransfer() {
               onChange={(e) => setAmount(Number(e.target.value))}
               required
               placeholder="Enter amount to transfer"
-              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50"
+              className="border-gray-300/50 bg-white/50 backdrop-blur-sm rounded-lg transition-all duration-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent hover:border-cyan-500/50 text-black"
               min={0.000000000000000001}
               step={0.000000000000000001}
             />
