@@ -82,28 +82,26 @@ export default function SupplyVisualization() {
                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500 rounded-full"
               />
             </div>
+            <div className="flex flex-col sm:flex-row justify-between w-full gap-6 text-center">
+              <div className="flex-1 p-6 rounded-xl glass-effect bg-opacity-50 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-500 group/card">
+                <p className="text-sm text-gray-300 mb-2">Current Supply</p>
+                <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-300 group-hover/card:scale-105 transition-transform duration-300">
+                  {formatLargeNumber(totalSupply)} MLD
+                </p>
+              </div>
+              <div className="flex-1 p-6 rounded-xl glass-effect bg-opacity-50 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-500 group/card">
+                <p className="text-sm text-gray-300 mb-2">Maximum Cap</p>
+                <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-300 group-hover/card:scale-105 transition-transform duration-300">
+                  {formatLargeNumber(maxCap)} MLD
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Right Side Components */}
       <div className="w-full md:w-1/2 flex flex-col gap-6 relative z-10">
-        {/* Supply Info */}
-        <div className="flex flex-col sm:flex-row justify-between w-full gap-6 text-center">
-          <div className="flex-1 p-6 rounded-xl glass-effect bg-opacity-50 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-500 group/card">
-            <p className="text-sm text-gray-300 mb-2">Current Supply</p>
-            <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-300 group-hover/card:scale-105 transition-transform duration-300">
-              {formatLargeNumber(totalSupply)} MLD
-            </p>
-          </div>
-          <div className="flex-1 p-6 rounded-xl glass-effect bg-opacity-50 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-500 group/card">
-            <p className="text-sm text-gray-300 mb-2">Maximum Cap</p>
-            <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-300 group-hover/card:scale-105 transition-transform duration-300">
-              {formatLargeNumber(maxCap)} MLD
-            </p>
-          </div>
-        </div>
-
         {/* Burn Rate */}
         <div className="p-6 rounded-xl glass-effect bg-opacity-50 hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-500 group/card text-center">
           <p className="text-sm text-gray-300 mb-2">Burn Rate</p>
