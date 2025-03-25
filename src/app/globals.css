@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: black !important;
+  background-color: white !important;
 }
 button[data-testid="rk-connect-button"] {
   background-color: white !important;
