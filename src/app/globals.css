@@ -4,25 +4,51 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 
-/* enforse fallable montserrat to all the text */
+:root {
+  --gradient-1: linear-gradient(135deg, #2a2a72 0%, #009ffd 74%);
+  --gradient-2: linear-gradient(to right, #141e30, #243b55);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --neon-glow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
 * {
   font-family: "Montserrat", sans-serif !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 *::-webkit-scrollbar {
   display: none !important;
 }
 
 body {
-  background-color: white !important;
+  background: var(--gradient-2) !important;
+  color: #ffffff;
+  min-height: 100vh;
 }
+
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: var(--neon-glow);
+}
+
 button[data-testid="rk-connect-button"] {
-  background-color: white !important;
-  color: black !important;
-  font-weight: 100 !important;
+  background: var(--gradient-1) !important;
+  color: white !important;
+  font-weight: 600 !important;
   width: 32dvw !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+button[data-testid="rk-connect-button"]:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--neon-glow);
 }
 
 @media (min-width: 768px) {
