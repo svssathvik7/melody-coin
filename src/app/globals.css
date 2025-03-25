@@ -53,6 +53,6 @@ button[data-testid="rk-connect-button"]:hover {
 
 @media (min-width: 768px) {
   button[data-testid="rk-connect-button"] {
-    width: 11dvw !important;
+    width: fit-content !important;
   }
 }
